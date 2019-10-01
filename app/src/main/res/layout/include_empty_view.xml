@@ -6,7 +6,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="isProductListEmpty"
+            name="isShoppingListsEmpty"
             type="Boolean" />
     </data>
 
@@ -14,7 +14,7 @@
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="@{isProductListEmpty ? View.VISIBLE : View.GONE}">
+        android:visibility="@{isShoppingListsEmpty ? View.VISIBLE : View.GONE}">
 
         <ImageView
             android:id="@+id/empty_shelter_image"

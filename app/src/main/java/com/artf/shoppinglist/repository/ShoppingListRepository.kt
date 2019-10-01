@@ -1,8 +1,8 @@
 package com.artf.shoppinglist.repository
 
+import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.database.ShoppingListDatabaseDao
-import com.artf.shoppinglist.database.ShoppingListItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -18,9 +18,9 @@ class ShoppingListRepository @Inject constructor(
         }
     }
 
-    suspend fun updateShoppingListItem(shoppingListItem: ShoppingListItem) {
+    suspend fun updateShoppingListItem(product: Product) {
         withContext(ioDispatcher) {
-            shoppingListDatabase.updateShoppingListItem(shoppingListItem)
+            shoppingListDatabase.updateShoppingListItem(product)
         }
     }
 
@@ -30,15 +30,15 @@ class ShoppingListRepository @Inject constructor(
         }
     }
 
-    suspend fun insertShoppingListItem(shoppingListItem: ShoppingListItem) {
+    suspend fun insertProduct(product: Product) {
         withContext(ioDispatcher) {
-            shoppingListDatabase.insertShoppingListItem(shoppingListItem)
+            shoppingListDatabase.insertShoppingListItem(product)
         }
     }
 
-    suspend fun deleteShoppingListItem(shoppingListItem: ShoppingListItem) {
+    suspend fun deleteProduct(product: Product) {
         withContext(ioDispatcher) {
-            shoppingListDatabase.deleteShoppingListItem(shoppingListItem)
+            shoppingListDatabase.deleteShoppingListItem(product)
         }
     }
 
@@ -46,6 +46,6 @@ class ShoppingListRepository @Inject constructor(
 
     fun getArchivedShoppingList() = shoppingListDatabase.getArchivedShoppingList()
 
-    fun getAllShoppingListItem() = shoppingListDatabase.getAllShoppingListItem()
+    fun getAllShoppingListItem(listId: Long) = shoppingListDatabase.getAllShoppingListItem(listId)
 
 }

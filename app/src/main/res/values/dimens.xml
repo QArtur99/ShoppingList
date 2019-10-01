@@ -3,4 +3,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="dialog_elevation">24dp</dimen>
+    <dimen name="buttonPadding">8dp</dimen>
 </resources>

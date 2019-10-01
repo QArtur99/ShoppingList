@@ -8,8 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="currentListViewModel"
-            type="com.artf.shoppinglist.ui.currentList.CurrentListViewModel" />
+            name="sharedListViewModel"
+            type="com.artf.shoppinglist.ui.SharedListViewModel" />
     </data>
 
     <RelativeLayout
@@ -22,9 +22,10 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="4dp"
+            app:archivedLists="@{sharedListViewModel.shoppingLists}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:shoppingLists="@{currentListViewModel.shoppingLists}"
-            tools:listitem="@layout/item_shopping_list" />
+            tools:listitem="@layout/item_current_shopping_list" />
 
         <!-- Empty view for the list -->
         <include
@@ -32,6 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            app:isProductListEmpty="@{currentListViewModel.isProductListEmpty}" />
+            app:isShoppingListsEmpty="@{sharedListViewModel.isShoppingListsEmpty}" />
     </RelativeLayout>
 </layout>

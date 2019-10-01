@@ -1,4 +1,4 @@
-package com.artf.shoppinglist.ui
+package com.artf.shoppinglist.ui.productDialog
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -6,36 +6,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.artf.shoppinglist.R
-import com.artf.shoppinglist.databinding.DialogNewListBinding
-import com.artf.shoppinglist.ui.currentList.CurrentListViewModel
+import com.artf.shoppinglist.databinding.DialogNewProductBinding
 import dagger.android.support.DaggerDialogFragment
 import javax.inject.Inject
 
-class NewListDialog : DaggerDialogFragment() {
+class NewProductDialog : DaggerDialogFragment() {
+
+    companion object {
+        var shoppingListId = 0L
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val currentListViewModel: CurrentListViewModel by activityViewModels { viewModelFactory }
+    private val newProductViewModel: NewProductViewModel by viewModels { viewModelFactory }
 
-    lateinit var binding: DialogNewListBinding
+    lateinit var binding: DialogNewProductBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DialogNewListBinding.inflate(LayoutInflater.from(activity))
+        binding = DialogNewProductBinding.inflate(LayoutInflater.from(activity))
         binding.cancelButton.setOnClickListener(getCancelButtonClickListener())
         binding.addButton.setOnClickListener(getAddButtonClickListener())
 
         dialog?.window?.decorView?.background =
-            ColorDrawable(ContextCompat.getColor(context!!,
-                R.color.colorTransparent
-            ))
+            ColorDrawable(ContextCompat.getColor(context!!, R.color.colorTransparent))
         return binding.root
     }
 
@@ -45,12 +46,14 @@ class NewListDialog : DaggerDialogFragment() {
 
     private fun getAddButtonClickListener(): View.OnClickListener {
         return View.OnClickListener {
-            val shoppingListName = binding.dialogEditText.text.toString()
-            if (shoppingListName.isEmpty()) {
-                binding.dialogEditText.error = activity!!.getString(R.string.shopping_list_empty)
+            val productQuantity = binding.quantityEditText.text.toString().toLong()
+            val productName = binding.nameEditText.text.toString()
+            if (productName.isEmpty()) {
+                binding.nameEditText.error = activity!!.getString(R.string.product_empty)
                 return@OnClickListener
             }
-            currentListViewModel.createShoppingList(shoppingListName)
+
+            newProductViewModel.createProduct(productName, productQuantity, shoppingListId)
             dialog?.dismiss()
         }
     }

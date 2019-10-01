@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/navigation"
-            app:startDestination="@id/fragment_current_list">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/fragment_current_list">
 
     <fragment
-            android:id="@+id/fragment_current_list"
-            android:name="com.artf.shoppinglist.ui.currentList.CurrentListFragment"
-            android:label="fragment_current_list"
-    >
+        android:id="@+id/fragment_current_list"
+        android:name="com.artf.shoppinglist.ui.currentList.CurrentListFragment"
+        android:label="fragment_current_list">
+        <action
+            android:id="@+id/action_current_list_to_archived_list"
+            app:destination="@id/fragment_archived_list"
+            app:popUpTo="@id/fragment_archived_list"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_current_list_to_product_list"
+            app:destination="@id/fragment_product_list"
+            app:popUpTo="@id/fragment_product_list"
+            app:popUpToInclusive="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/fragment_archived_list"
+        android:name="com.artf.shoppinglist.ui.archivedList.ArchivedListFragment"
+        android:label="fragment_archived_list">
+        <action
+            android:id="@+id/action_archived_list_to_current_list"
+            app:destination="@id/fragment_current_list"
+            app:popUpTo="@id/fragment_current_list"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_archived_list_to_product_list"
+            app:destination="@id/fragment_product_list"
+            app:popUpTo="@id/fragment_product_list"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_product_list"
+        android:name="com.artf.shoppinglist.ui.detailList.ProductListFragment"
+        android:label="fragment_product_list"/>
 
 
 </navigation>

@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "shopping_list_item")
-data class ShoppingListItem(
+@Entity(tableName = "products")
+data class Product(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
 
@@ -18,6 +18,6 @@ data class ShoppingListItem(
     @ColumnInfo(name = "productTimestamp")
     var productTimestamp: Long = System.currentTimeMillis(),
 
-    @ColumnInfo(name = "productImage")
+    @ColumnInfo(name = "shoppingListId")
     var shoppingListId: Long = 0L
 )

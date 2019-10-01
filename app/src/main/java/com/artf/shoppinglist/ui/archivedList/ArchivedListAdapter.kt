@@ -1,4 +1,4 @@
-package com.artf.shoppinglist.ui.currentList
+package com.artf.shoppinglist.ui.archivedList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.artf.shoppinglist.database.ShoppingList
-import com.artf.shoppinglist.databinding.ItemCurrentShoppingListBinding
+import com.artf.shoppinglist.databinding.ItemArchivedShoppingListBinding
 
-class CurrentListAdapter(
+class ArchivedListAdapter(
     private val fragment: Fragment,
     private val clickListenerInt: ClickListenerInt
 ) : ListAdapter<ShoppingList,
@@ -22,13 +22,13 @@ class CurrentListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MsgViewHolder {
         return MsgViewHolder(
-            ItemCurrentShoppingListBinding.inflate(
+            ItemArchivedShoppingListBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
-    class MsgViewHolder constructor(private val binding: ItemCurrentShoppingListBinding) :
+    class MsgViewHolder constructor(private val binding: ItemArchivedShoppingListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(fragment: Fragment, clickListenerInt: ClickListenerInt, item: ShoppingList) {
