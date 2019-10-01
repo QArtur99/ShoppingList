@@ -46,13 +46,14 @@ class NewProductDialog : DaggerDialogFragment() {
 
     private fun getAddButtonClickListener(): View.OnClickListener {
         return View.OnClickListener {
-            val productQuantity = binding.quantityEditText.text.toString().toLong()
             val productName = binding.nameEditText.text.toString()
             if (productName.isEmpty()) {
                 binding.nameEditText.error = activity!!.getString(R.string.product_empty)
                 return@OnClickListener
             }
 
+            val pqString = binding.quantityEditText.text.toString()
+            val productQuantity = if (pqString.isEmpty()) 1L else pqString.toLong()
             newProductViewModel.createProduct(productName, productQuantity, shoppingListId)
             dialog?.dismiss()
         }
