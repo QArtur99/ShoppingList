@@ -1,8 +1,8 @@
 package com.artf.shoppinglist.di
 
 import android.content.Context
-import com.artf.shoppinglist.database.ShoppingListDatabase
 import com.artf.shoppinglist.database.ShoppingListDatabaseDao
+import com.artf.shoppinglist.database.ShoppingListDatabaseJava
 import com.artf.shoppinglist.di.viewModel.ViewModelModule
 import dagger.Module
 import dagger.Provides
@@ -16,7 +16,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDataBase(context: Context): ShoppingListDatabaseDao {
-        return ShoppingListDatabase.getInstance(context).shoppingListDatabaseDao
+        return ShoppingListDatabaseJava.getInstance(context).shoppingListDatabaseDao()
     }
 
     @JvmStatic
