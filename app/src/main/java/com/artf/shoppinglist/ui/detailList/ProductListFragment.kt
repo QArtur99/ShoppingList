@@ -9,7 +9,7 @@ import com.artf.shoppinglist.R
 import com.artf.shoppinglist.databinding.FragmentProductListBinding
 import com.artf.shoppinglist.model.ProductUi
 import com.artf.shoppinglist.ui.MainActivity
-import com.artf.shoppinglist.ui.SharedListViewModel
+import com.artf.shoppinglist.ui.SharedViewModel
 import com.artf.shoppinglist.ui.productDialog.NewProductDialog
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class ProductListFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val sharedListViewModel: SharedListViewModel by activityViewModels { viewModelFactory }
+    private val sharedViewModel: SharedViewModel by activityViewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,19 +27,19 @@ class ProductListFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentProductListBinding.inflate(LayoutInflater.from(context))
-        binding.sharedListViewModel = sharedListViewModel
+        binding.sharedViewModel = sharedViewModel
         binding.lifecycleOwner = this
         binding.recyclerView.adapter = ProductListAdapter(getListItemListener())
 
-        sharedListViewModel.selectedShoppingList.observe(this, Observer {
+        sharedViewModel.selectedShoppingList.observe(this, Observer {
             NewProductDialog.shoppingListId = it.id
         })
 
-        sharedListViewModel.createItem.observe(this, Observer {
+        sharedViewModel.createItem.observe(this, Observer {
             it?.let {
                 val reviewDialog = NewProductDialog()
                 reviewDialog.show(parentFragmentManager, NewProductDialog::class.simpleName)
-                sharedListViewModel.onFabClicked(null)
+                sharedViewModel.onFabClicked(null)
             }
         })
 
@@ -57,7 +57,7 @@ class ProductListFragment : DaggerFragment() {
     private fun getListItemListener(): ProductListAdapter.ClickListenerInt {
         return object : ProductListAdapter.ClickListenerInt {
             override fun onClickListenerButton(product: ProductUi) {
-                sharedListViewModel.deleteProduct(product)
+                sharedViewModel.deleteProduct(product)
             }
 
             override fun onClickListenerRow(product: ProductUi) {}

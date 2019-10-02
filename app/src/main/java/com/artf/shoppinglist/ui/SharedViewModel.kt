@@ -1,6 +1,7 @@
 package com.artf.shoppinglist.ui
 
 import androidx.lifecycle.*
+import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.model.ProductUi
 import com.artf.shoppinglist.repository.ShoppingListRepository
@@ -10,7 +11,7 @@ import com.artf.shoppinglist.util.asUiModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SharedListViewModel @Inject constructor(
+class SharedViewModel @Inject constructor(
     private val shoppingListRepository: ShoppingListRepository
 ) : ViewModel() {
 
@@ -34,8 +35,12 @@ class SharedListViewModel @Inject constructor(
         }
     }
 
-    val productList = Transformations.switchMap(selectedShoppingList) {
-        shoppingListRepository.getAllShoppingListItem(it.id)
+    val productList = Transformations.switchMap(_selectedShoppingList) {
+        if(it.id == -1L){
+            MutableLiveData<List<Product>>()
+        } else{
+            shoppingListRepository.getAllShoppingListItem(it.id)
+        }
     }
 
     val productListUi = Transformations.map(productList) { it.asUiModel(shoppingListType.value!!) }

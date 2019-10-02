@@ -17,7 +17,7 @@ class MainActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val sharedListViewModel: SharedListViewModel by viewModels { viewModelFactory }
+    private val sharedViewModel: SharedViewModel by viewModels { viewModelFactory }
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +33,8 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
-            R.id.current_shopping_list -> sharedListViewModel.setShoppingListType(ShoppingListType.CURRENT)
-            R.id.archived_shopping_list -> sharedListViewModel.setShoppingListType(ShoppingListType.ARCHIVED)
+            R.id.current_shopping_list -> sharedViewModel.setShoppingListType(ShoppingListType.CURRENT)
+            R.id.archived_shopping_list -> sharedViewModel.setShoppingListType(ShoppingListType.ARCHIVED)
         }
         return true
     }

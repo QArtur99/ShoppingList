@@ -1,7 +1,7 @@
 package com.artf.shoppinglist.di.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.artf.shoppinglist.ui.SharedListViewModel
+import com.artf.shoppinglist.ui.SharedViewModel
 import com.artf.shoppinglist.ui.productDialog.NewProductViewModel
 import com.artf.shoppinglist.ui.shoppingListDialog.NewListViewModel
 import dagger.Binds
@@ -24,8 +24,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SharedListViewModel::class)
-    abstract fun bindSharedListViewModel(viewModel: SharedListViewModel): ViewModel
+    @ViewModelKey(SharedViewModel::class)
+    abstract fun bindSharedListViewModel(viewModel: SharedViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

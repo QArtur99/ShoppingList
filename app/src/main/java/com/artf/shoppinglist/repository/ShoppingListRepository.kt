@@ -3,10 +3,14 @@ package com.artf.shoppinglist.repository
 import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.database.ShoppingListDatabaseDao
+import com.artf.shoppinglist.testing.OpenForTesting
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@OpenForTesting
+@Singleton
 class ShoppingListRepository @Inject constructor(
     private val shoppingListDatabase: ShoppingListDatabaseDao,
     private val ioDispatcher: CoroutineDispatcher

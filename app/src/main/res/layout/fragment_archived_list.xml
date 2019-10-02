@@ -8,8 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="sharedListViewModel"
-            type="com.artf.shoppinglist.ui.SharedListViewModel" />
+            name="sharedViewModel"
+            type="com.artf.shoppinglist.ui.SharedViewModel" />
     </data>
 
     <RelativeLayout
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="4dp"
-            app:archivedLists="@{sharedListViewModel.shoppingLists}"
+            app:archivedLists="@{sharedViewModel.shoppingLists}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_current_shopping_list" />
 
@@ -33,6 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            app:isShoppingListsEmpty="@{sharedListViewModel.isShoppingListsEmpty}" />
+            app:isShoppingListsEmpty="@{sharedViewModel.isShoppingListsEmpty}" />
     </RelativeLayout>
 </layout>

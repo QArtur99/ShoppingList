@@ -12,7 +12,7 @@ import com.artf.shoppinglist.R
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.databinding.FragmentArchivedListBinding
 import com.artf.shoppinglist.ui.MainActivity
-import com.artf.shoppinglist.ui.SharedListViewModel
+import com.artf.shoppinglist.ui.SharedViewModel
 import com.artf.shoppinglist.util.ShoppingListType
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class ArchivedListFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val sharedListViewModel: SharedListViewModel by activityViewModels { viewModelFactory }
+    private val sharedViewModel: SharedViewModel by activityViewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +30,12 @@ class ArchivedListFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentArchivedListBinding.inflate(LayoutInflater.from(context))
-        binding.sharedListViewModel = sharedListViewModel
+        binding.sharedViewModel = sharedViewModel
         binding.lifecycleOwner = this
-        binding.recyclerView.adapter = ArchivedListAdapter(this, getListItemListener())
+        binding.recyclerView.adapter = ArchivedListAdapter(getListItemListener())
 
-        sharedListViewModel.setShoppingListType(ShoppingListType.ARCHIVED)
-        sharedListViewModel.shoppingListType.observe(this, Observer {
+        sharedViewModel.setShoppingListType(ShoppingListType.ARCHIVED)
+        sharedViewModel.shoppingListType.observe(this, Observer {
             if (isThisDestination().not()) return@Observer
             if (it != ShoppingListType.CURRENT) return@Observer
             findNavController().navigate(R.id.action_archived_list_to_current_list)
@@ -43,7 +43,6 @@ class ArchivedListFragment : DaggerFragment() {
 
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
-        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -51,11 +50,11 @@ class ArchivedListFragment : DaggerFragment() {
     private fun getListItemListener(): ArchivedListAdapter.ClickListenerInt {
         return object : ArchivedListAdapter.ClickListenerInt {
             override fun onClickListenerButton(shoppingList: ShoppingList) {
-                sharedListViewModel.updateShoppingList(shoppingList, false)
+                sharedViewModel.updateShoppingList(shoppingList, false)
             }
 
             override fun onClickListenerRow(shoppingList: ShoppingList) {
-                sharedListViewModel.onShoppingListClick(shoppingList)
+                sharedViewModel.onShoppingListClick(shoppingList)
                 if (isThisDestination().not()) return
                 findNavController().navigate(R.id.action_archived_list_to_product_list)
             }

@@ -3,7 +3,9 @@ package com.artf.shoppinglist.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.artf.shoppinglist.testing.OpenForTesting
 
+@OpenForTesting
 @Entity(tableName = "shopping_list")
 data class ShoppingList(
     @PrimaryKey(autoGenerate = true)

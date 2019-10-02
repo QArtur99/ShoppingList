@@ -1,7 +1,9 @@
 package com.artf.shoppinglist.ui.currentList
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,7 +12,7 @@ import com.artf.shoppinglist.R
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.databinding.FragmentCurrentListBinding
 import com.artf.shoppinglist.ui.MainActivity
-import com.artf.shoppinglist.ui.SharedListViewModel
+import com.artf.shoppinglist.ui.SharedViewModel
 import com.artf.shoppinglist.ui.shoppingListDialog.NewListDialog
 import com.artf.shoppinglist.util.ShoppingListType
 import dagger.android.support.DaggerFragment
@@ -21,7 +23,7 @@ class CurrentListFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val sharedListViewModel: SharedListViewModel by activityViewModels { viewModelFactory }
+    private val sharedViewModel: SharedViewModel by activityViewModels { viewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,20 +31,20 @@ class CurrentListFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentCurrentListBinding.inflate(LayoutInflater.from(context))
-        binding.sharedListViewModel = sharedListViewModel
+        binding.sharedViewModel = sharedViewModel
         binding.lifecycleOwner = this
-        binding.recyclerView.adapter = CurrentListAdapter(this, getListItemListener())
+        binding.recyclerView.adapter = CurrentListAdapter(getListItemListener())
 
-        sharedListViewModel.setShoppingListType(ShoppingListType.CURRENT)
-        sharedListViewModel.createItem.observe(this, Observer {
+        sharedViewModel.setShoppingListType(ShoppingListType.CURRENT)
+        sharedViewModel.createItem.observe(this, Observer {
             it?.let {
                 val reviewDialog = NewListDialog()
                 reviewDialog.show(parentFragmentManager, NewListDialog::class.simpleName)
-                sharedListViewModel.onFabClicked(null)
+                sharedViewModel.onFabClicked(null)
             }
         })
 
-        sharedListViewModel.shoppingListType.observe(this, Observer {
+        sharedViewModel.shoppingListType.observe(this, Observer {
             if (isThisDestination().not()) return@Observer
             if (it != ShoppingListType.ARCHIVED) return@Observer
             findNavController().navigate(R.id.action_current_list_to_archived_list)
@@ -50,23 +52,18 @@ class CurrentListFragment : DaggerFragment() {
 
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
-        setHasOptionsMenu(true)
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //menu.setGroupVisible(R.id.menuGroup, false)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun getListItemListener(): CurrentListAdapter.ClickListenerInt {
         return object : CurrentListAdapter.ClickListenerInt {
             override fun onClickListenerButton(shoppingList: ShoppingList) {
-                sharedListViewModel.updateShoppingList(shoppingList, true)
+                sharedViewModel.updateShoppingList(shoppingList, true)
             }
 
             override fun onClickListenerRow(shoppingList: ShoppingList) {
-                sharedListViewModel.onShoppingListClick(shoppingList)
+                sharedViewModel.onShoppingListClick(ShoppingList(-1L))
+                sharedViewModel.onShoppingListClick(shoppingList)
                 if (isThisDestination().not()) return
                 findNavController().navigate(R.id.action_current_list_to_product_list)
             }
