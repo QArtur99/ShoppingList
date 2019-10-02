@@ -9,4 +9,5 @@
     <color name="colorTransparent">#00000000</color>
 
     <color name="colorItem">#FFFFFF</color>
+    <color name="colorBackground">#EEEEEE</color>
 </resources>

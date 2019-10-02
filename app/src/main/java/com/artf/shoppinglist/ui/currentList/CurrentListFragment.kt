@@ -62,7 +62,6 @@ class CurrentListFragment : DaggerFragment() {
             }
 
             override fun onClickListenerRow(shoppingList: ShoppingList) {
-                sharedViewModel.onShoppingListClick(ShoppingList(-1L))
                 sharedViewModel.onShoppingListClick(shoppingList)
                 if (isThisDestination().not()) return
                 findNavController().navigate(R.id.action_current_list_to_product_list)
@@ -74,4 +73,8 @@ class CurrentListFragment : DaggerFragment() {
         return findNavController().currentDestination?.id == R.id.fragment_current_list
     }
 
+    override fun onResume() {
+        super.onResume()
+        sharedViewModel.onShoppingListClick(null)
+    }
 }

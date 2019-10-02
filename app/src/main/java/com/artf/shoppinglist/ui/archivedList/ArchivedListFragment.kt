@@ -46,7 +46,6 @@ class ArchivedListFragment : DaggerFragment() {
         return binding.root
     }
 
-
     private fun getListItemListener(): ArchivedListAdapter.ClickListenerInt {
         return object : ArchivedListAdapter.ClickListenerInt {
             override fun onClickListenerButton(shoppingList: ShoppingList) {
@@ -65,4 +64,8 @@ class ArchivedListFragment : DaggerFragment() {
         return findNavController().currentDestination?.id == R.id.fragment_archived_list
     }
 
+    override fun onResume() {
+        super.onResume()
+        sharedViewModel.onShoppingListClick(null)
+    }
 }

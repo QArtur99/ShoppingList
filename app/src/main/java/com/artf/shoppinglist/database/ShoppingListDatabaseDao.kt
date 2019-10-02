@@ -1,7 +1,11 @@
 package com.artf.shoppinglist.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface ShoppingListDatabaseDao {
@@ -29,6 +33,4 @@ interface ShoppingListDatabaseDao {
 
     @Query("SELECT * FROM products WHERE shoppingListId = :listId ORDER BY productTimestamp DESC")
     fun getAllShoppingListItem(listId: Long): LiveData<List<Product>>
-
 }
-

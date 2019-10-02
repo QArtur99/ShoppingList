@@ -1,7 +1,11 @@
 package com.artf.shoppinglist.ui.detailList
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +36,7 @@ class ProductListFragment : DaggerFragment() {
         binding.recyclerView.adapter = ProductListAdapter(getListItemListener())
 
         sharedViewModel.selectedShoppingList.observe(this, Observer {
-            NewProductDialog.shoppingListId = it.id
+            it?.let { NewProductDialog.shoppingListId = it.id }
         })
 
         sharedViewModel.createItem.observe(this, Observer {
@@ -63,5 +67,4 @@ class ProductListFragment : DaggerFragment() {
             override fun onClickListenerRow(product: ProductUi) {}
         }
     }
-
 }

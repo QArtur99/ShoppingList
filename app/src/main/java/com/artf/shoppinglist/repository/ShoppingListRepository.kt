@@ -51,5 +51,4 @@ class ShoppingListRepository @Inject constructor(
     fun getArchivedShoppingList() = shoppingListDatabase.getArchivedShoppingList()
 
     fun getAllShoppingListItem(listId: Long) = shoppingListDatabase.getAllShoppingListItem(listId)
-
 }

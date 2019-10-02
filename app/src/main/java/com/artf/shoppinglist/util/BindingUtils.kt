@@ -2,14 +2,16 @@ package com.artf.shoppinglist.util
 
 import android.view.View
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.artf.shoppinglist.R
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.model.ProductUi
 import com.artf.shoppinglist.ui.archivedList.ArchivedListAdapter
 import com.artf.shoppinglist.ui.currentList.CurrentListAdapter
 import com.artf.shoppinglist.ui.detailList.ProductListAdapter
-import java.util.*
+import java.util.Date
 
 @BindingAdapter("currentLists")
 fun bindCurrentLists(recyclerView: RecyclerView, data: List<ShoppingList>?) {
@@ -32,7 +34,6 @@ fun bindProductList(recyclerView: RecyclerView, data: List<ProductUi>?) {
     adapter.notifyDataSetChanged()
 }
 
-
 @BindingAdapter("shoppingListTimestamp")
 fun bindShoppingListTimestamp(textView: TextView, timestampLong: Long) {
     val text = getDateFormat().format(Date(timestampLong))
@@ -50,6 +51,12 @@ fun bindListType(view: View, shoppingListType: ShoppingListType?) {
     view.visibility = when (shoppingListType) {
         ShoppingListType.CURRENT -> View.VISIBLE
         ShoppingListType.ARCHIVED -> View.GONE
-        else -> {View.VISIBLE}
+        else -> { View.VISIBLE }
     }
+}
+
+@BindingAdapter("bgColor")
+fun bindBgColor(view: View, empty: Boolean) {
+    val color = if (empty) R.color.colorWhite else R.color.colorBackground
+    view.setBackgroundColor(ActivityCompat.getColor(view.context, color))
 }

@@ -51,5 +51,4 @@ class NewListDialog : DaggerDialogFragment() {
             dialog?.dismiss()
         }
     }
-
 }

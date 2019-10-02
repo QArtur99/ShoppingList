@@ -1,7 +1,8 @@
 package com.artf.shoppinglist.util
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.TimeZone
 
 enum class ShoppingListType { CURRENT, ARCHIVED }
 

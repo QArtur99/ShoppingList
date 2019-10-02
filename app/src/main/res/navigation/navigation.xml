@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/fragment_product_list"
         android:name="com.artf.shoppinglist.ui.detailList.ProductListFragment"
-        android:label="fragment_product_list"/>
+        android:label="fragment_product_list" />
 
 
 </navigation>

@@ -58,5 +58,4 @@ class NewProductDialog : DaggerDialogFragment() {
             dialog?.dismiss()
         }
     }
-
 }

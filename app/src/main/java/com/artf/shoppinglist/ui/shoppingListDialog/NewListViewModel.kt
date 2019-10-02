@@ -11,8 +11,8 @@ class NewListViewModel @Inject constructor(
     private val shoppingListRepository: ShoppingListRepository
 ) : ViewModel() {
 
-    fun createShoppingList(name: String){
-        val shoppingList = ShoppingList (shoppingListName = name)
+    fun createShoppingList(name: String) {
+        val shoppingList = ShoppingList(shoppingListName = name)
         viewModelScope.launch {
             shoppingListRepository.insertShoppingList(shoppingList)
         }

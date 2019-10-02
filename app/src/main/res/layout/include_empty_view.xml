@@ -8,6 +8,7 @@
         <variable
             name="isShoppingListsEmpty"
             type="Boolean" />
+
     </data>
 
     <RelativeLayout
@@ -17,7 +18,7 @@
         android:visibility="@{isShoppingListsEmpty ? View.VISIBLE : View.GONE}">
 
         <ImageView
-            android:id="@+id/empty_shelter_image"
+            android:id="@+id/empty_inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -27,7 +28,7 @@
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/empty_shelter_image"
+            android:layout_below="@+id/empty_inventory"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
