@@ -24,7 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:padding="12dp"
+            android:paddingTop="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="86dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:productList="@{sharedViewModel.productListUi}"
             tools:listitem="@layout/item_current_shopping_list" />
