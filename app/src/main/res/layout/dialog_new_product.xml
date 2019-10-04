@@ -29,6 +29,8 @@
                 android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/enter_product_name" />
@@ -38,6 +40,8 @@
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/enter_quantity" />
 
@@ -57,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:background="@color/colorWhite"
+                    android:elevation="2dp"
+                    android:background="?selectableItemBackground"
                     android:text="@string/cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/colorBlack"
@@ -75,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:background="@color/colorWhite"
+                    android:background="?selectableItemBackground"
                     android:text="@string/add"
                     android:textAllCaps="false"
                     android:textColor="@color/colorBlack"
