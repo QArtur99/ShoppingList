@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
@@ -16,34 +17,34 @@
                 android:id="@+id/titleDialogSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_new_product"
                 android:background="@color/colorPrimary"
                 android:gravity="start"
-                android:padding="10dp"
+                android:padding="16dp"
+                android:text="@string/add_new_product"
                 android:textColor="@color/colorWhite"
-                android:textSize="20sp"
+                android:textSize="21sp"
                 android:textStyle="normal|bold" />
 
             <EditText
                 android:id="@+id/nameEditText"
-                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/enter_product_name" />
+                android:hint="@string/enter_product_name"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/quantityEditText"
-                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
-                android:hint="@string/enter_quantity" />
+                android:hint="@string/enter_quantity"
+                android:inputType="number" />
 
             <View
                 android:layout_width="match_parent"
@@ -61,12 +62,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:elevation="2dp"
                     android:background="?selectableItemBackground"
+                    android:elevation="2dp"
                     android:text="@string/cancel"
                     android:textAllCaps="false"
                     android:textColor="@color/colorBlack"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="normal" />
 
                 <View
@@ -84,9 +85,9 @@
                     android:text="@string/add"
                     android:textAllCaps="false"
                     android:textColor="@color/colorBlack"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
