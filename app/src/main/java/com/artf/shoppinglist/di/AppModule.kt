@@ -4,8 +4,11 @@ import android.content.Context
 import com.artf.shoppinglist.database.ShoppingListDatabaseDao
 import com.artf.shoppinglist.database.ShoppingListDatabaseJava
 import com.artf.shoppinglist.di.viewModel.ViewModelModule
+import com.artf.shoppinglist.repository.ShoppingListRepository
+import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
@@ -17,6 +20,16 @@ object AppModule {
     @Provides
     fun provideDataBase(context: Context): ShoppingListDatabaseDao {
         return ShoppingListDatabaseJava.getInstance(context).shoppingListDatabaseDao()
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideRepository(
+        shoppingListDatabase: ShoppingListDatabaseDao,
+        ioDispatcher: CoroutineDispatcher
+    ): ShoppingListRepositoryInt {
+        return ShoppingListRepository(shoppingListDatabase, ioDispatcher)
     }
 
     @JvmStatic

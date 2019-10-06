@@ -14,41 +14,41 @@ import javax.inject.Singleton
 class ShoppingListRepository @Inject constructor(
     private val shoppingListDatabase: ShoppingListDatabaseDao,
     private val ioDispatcher: CoroutineDispatcher
-) {
+): ShoppingListRepositoryInt {
 
-    suspend fun updateShoppingList(shoppingList: ShoppingList) {
+    override suspend fun updateShoppingList(shoppingList: ShoppingList) {
         withContext(ioDispatcher) {
             shoppingListDatabase.updateShoppingList(shoppingList)
         }
     }
 
-    suspend fun updateShoppingListItem(product: Product) {
+    override suspend fun updateShoppingListItem(product: Product) {
         withContext(ioDispatcher) {
             shoppingListDatabase.updateShoppingListItem(product)
         }
     }
 
-    suspend fun insertShoppingList(shoppingList: ShoppingList) {
+    override suspend fun insertShoppingList(shoppingList: ShoppingList) {
         withContext(ioDispatcher) {
             shoppingListDatabase.insertShoppingList(shoppingList)
         }
     }
 
-    suspend fun insertProduct(product: Product) {
+    override suspend fun insertProduct(product: Product) {
         withContext(ioDispatcher) {
             shoppingListDatabase.insertShoppingListItem(product)
         }
     }
 
-    suspend fun deleteProduct(product: Product) {
+    override suspend fun deleteProduct(product: Product) {
         withContext(ioDispatcher) {
             shoppingListDatabase.deleteShoppingListItem(product)
         }
     }
 
-    fun getCurrentShoppingList() = shoppingListDatabase.getCurrentShoppingList()
+    override fun getCurrentShoppingList() = shoppingListDatabase.getCurrentShoppingList()
 
-    fun getArchivedShoppingList() = shoppingListDatabase.getArchivedShoppingList()
+    override fun getArchivedShoppingList() = shoppingListDatabase.getArchivedShoppingList()
 
-    fun getAllShoppingListItem(listId: Long) = shoppingListDatabase.getAllShoppingListItem(listId)
+    override fun getAllShoppingListItem(listId: Long) = shoppingListDatabase.getAllShoppingListItem(listId)
 }

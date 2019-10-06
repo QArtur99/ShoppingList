@@ -17,6 +17,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        test.java.srcDirs += sharedTestDir
+        androidTest.java.srcDirs += sharedTestDir
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -25,6 +30,7 @@ android {
     }
     dataBinding {
         enabled = true
+        enabledForTests = true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -65,13 +71,26 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
 
-    // Mockito
-    testImplementation "org.mockito:mockito-core:$versions.mockito"
-
     //Test
     testImplementation "androidx.arch.core:core-testing:$versions.arch_core"
+    testImplementation "com.google.truth:truth:$versions.truth"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutine"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutine"
+    testImplementation "org.mockito:mockito-core:$versions.mockito"
     testImplementation "junit:junit:$versions.junit"
+
+    //Android Test
+    androidTestImplementation "org.mockito:mockito-core:$versions.mockito"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutine"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutine"
     androidTestImplementation "androidx.test.ext:junit:$versions.atsl_junit"
     androidTestImplementation "androidx.test:runner:$versions.atsl_runner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+}
+
+// we need all open to run tests which  a we enable only for debug builds.
+project.tasks.whenTaskAdded {
+    if (it.name == "testReleaseUnitTest") {
+        it.enabled = false
+    }
 }

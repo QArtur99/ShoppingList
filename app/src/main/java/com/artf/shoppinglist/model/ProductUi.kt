@@ -1,7 +1,9 @@
 package com.artf.shoppinglist.model
 
+import com.artf.shoppinglist.testing.OpenForTesting
 import com.artf.shoppinglist.util.ShoppingListType
 
+@OpenForTesting
 data class ProductUi(
     val id: Long,
     val productName: String,

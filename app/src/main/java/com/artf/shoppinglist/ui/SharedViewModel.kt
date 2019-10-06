@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.model.ProductUi
-import com.artf.shoppinglist.repository.ShoppingListRepository
+import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
 import com.artf.shoppinglist.util.ShoppingListType
 import com.artf.shoppinglist.util.asDbModel
 import com.artf.shoppinglist.util.asUiModel
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SharedViewModel @Inject constructor(
-    private val shoppingListRepository: ShoppingListRepository
+    private val shoppingListRepository: ShoppingListRepositoryInt
 ) : ViewModel() {
 
     private val _shoppingListType = MutableLiveData<ShoppingListType>()
@@ -36,7 +36,6 @@ class SharedViewModel @Inject constructor(
         when (it) {
             ShoppingListType.CURRENT -> shoppingListRepository.getCurrentShoppingList()
             ShoppingListType.ARCHIVED -> shoppingListRepository.getArchivedShoppingList()
-            else -> throw IllegalArgumentException("unknown ShoppingListType $it")
         }
     }
 
@@ -58,16 +57,24 @@ class SharedViewModel @Inject constructor(
         _createItem.value = show
     }
 
+    private val _updateShoppingListLoading = MutableLiveData<Boolean>()
+    val updateShoppingListLoading: LiveData<Boolean> = _updateShoppingListLoading
     fun updateShoppingList(shoppingList: ShoppingList, isArchived: Boolean) {
+        _updateShoppingListLoading.value = true
         shoppingList.isArchived = isArchived
         viewModelScope.launch {
             shoppingListRepository.updateShoppingList(shoppingList)
+            _updateShoppingListLoading.value = false
         }
     }
 
+    private val _deleteProductLoading = MutableLiveData<Boolean>()
+    val deleteProductLoading: LiveData<Boolean> = _deleteProductLoading
     fun deleteProduct(product: ProductUi) {
+        _deleteProductLoading.value = true
         viewModelScope.launch {
             shoppingListRepository.deleteProduct(product.asDbModel())
+            _deleteProductLoading.value = false
         }
     }
 }

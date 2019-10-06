@@ -2,7 +2,7 @@
 
 buildscript {
     def versions = [:]
-    versions.android_gradle_plugin = '3.5.0'
+    versions.android_gradle_plugin = '3.5.1'
     versions.arch_core = '2.1.0'
     versions.atsl_core = "1.1.0"
     versions.atsl_junit = "1.1.0"
@@ -30,6 +30,7 @@ buildscript {
     versions.preference = "1.1.0"
     versions.room = '2.2.0-rc01'
     versions.support = '1.1.0'
+    versions.truth = '0.44'
     ext.versions = versions
     repositories {
         google()

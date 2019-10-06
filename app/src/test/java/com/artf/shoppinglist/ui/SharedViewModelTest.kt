@@ -3,30 +3,59 @@ package com.artf.shoppinglist.ui
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.artf.shoppinglist.MainCoroutineRule
+import com.artf.shoppinglist.data.FakeShoppingListRepository
 import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.repository.ShoppingListRepository
+import com.artf.shoppinglist.util.LiveDataTestUtil.getValue
 import com.artf.shoppinglist.util.ShoppingListType
+import com.artf.shoppinglist.util.asUiModel
 import com.artf.shoppinglist.util.mock
+import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 
-@RunWith(JUnit4::class)
+@ExperimentalCoroutinesApi
 class SharedViewModelTest {
+
+    @Rule
+    @JvmField
+    @ExperimentalCoroutinesApi
+    val mainCoroutineRule = MainCoroutineRule()
 
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val shoppingListRepository = mock(ShoppingListRepository::class.java)
-    private val sharedViewModel = SharedViewModel(this.shoppingListRepository)
+    private val sharedViewModel = SharedViewModel(shoppingListRepository)
     private val shoppingList = mock(ShoppingList::class.java)
+
+    private lateinit var fakeShoppingListRepository: FakeShoppingListRepository
+    //private lateinit var sharedViewModel : SharedViewModel
+
+    // @Before
+    // fun setupViewModel() {
+    //     fakeShoppingListRepository.shoppingListData.apply {
+    //         add(ShoppingList(0L, "0"))
+    //         add(ShoppingList(1L, "1"))
+    //         add(ShoppingList(2L, "2"))
+    //     }
+    //
+    //     fakeShoppingListRepository.productData.apply {
+    //         add(Product(0L, "0", 1, shoppingListId= 0L))
+    //         add(Product(1L, "1", 1, shoppingListId= 1L))
+    //         add(Product(2L, "2", 1, shoppingListId= 2L))
+    //     }
+    //
+    //     sharedViewModel = SharedViewModel(fakeShoppingListRepository)
+    // }
 
     @Test
     fun testNull() {
@@ -38,6 +67,10 @@ class SharedViewModelTest {
         MatcherAssert.assertThat(sharedViewModel.isShoppingListsEmpty, CoreMatchers.notNullValue())
         MatcherAssert.assertThat(sharedViewModel.isProductListsEmpty, CoreMatchers.notNullValue())
         MatcherAssert.assertThat(sharedViewModel.createItem, CoreMatchers.notNullValue())
+        MatcherAssert.assertThat(
+            sharedViewModel.updateShoppingListLoading, CoreMatchers.notNullValue()
+        )
+        MatcherAssert.assertThat(sharedViewModel.deleteProductLoading, CoreMatchers.notNullValue())
         Mockito.verify(shoppingListRepository, Mockito.never()).getCurrentShoppingList()
         Mockito.verify(shoppingListRepository, Mockito.never()).getArchivedShoppingList()
         Mockito.verify(shoppingListRepository, Mockito.never())
@@ -51,8 +84,24 @@ class SharedViewModelTest {
         Mockito.verify(shoppingListRepository).getCurrentShoppingList()
         sharedViewModel.setShoppingListType(ShoppingListType.ARCHIVED)
         Mockito.verify(shoppingListRepository).getArchivedShoppingList()
+        assertThat(getValue(sharedViewModel.shoppingLists)).isNull()
+        assertThat(getValue(sharedViewModel.isShoppingListsEmpty)).isNull()
 
+        val shoppingLists = MutableLiveData<List<ShoppingList>>().apply { value = emptyList() }
+        Mockito.`when`(shoppingListRepository.getCurrentShoppingList()).thenReturn(shoppingLists)
+        sharedViewModel.isShoppingListsEmpty.observeForever(mock())
+        sharedViewModel.setShoppingListType(ShoppingListType.CURRENT)
+        assertThat(getValue(sharedViewModel.shoppingLists)).isEmpty()
+        assertThat(getValue(sharedViewModel.isShoppingListsEmpty)).isTrue()
+    }
+
+    @Test
+    fun cleanProductList() {
         sharedViewModel.productList.observeForever(mock())
+        sharedViewModel.onShoppingListClick(null)
+        assertThat(getValue(sharedViewModel.productList)).isNull()
+        assertThat(getValue(sharedViewModel.productListUi)).isNull()
+        assertThat(getValue(sharedViewModel.isProductListsEmpty)).isFalse()
         sharedViewModel.onShoppingListClick(shoppingList)
         Mockito.verify(shoppingListRepository).getAllShoppingListItem(shoppingList.id)
     }
@@ -112,5 +161,25 @@ class SharedViewModelTest {
         Mockito.verifyNoMoreInteractions(observer)
         sharedViewModel.setShoppingListType(ShoppingListType.ARCHIVED)
         Mockito.verify(observer).onChanged(ShoppingListType.ARCHIVED)
+    }
+
+    @Test
+    fun updateShoppingListLoading() {
+        mainCoroutineRule.pauseDispatcher()
+        sharedViewModel.updateShoppingList(shoppingList, false)
+        assertThat(getValue(sharedViewModel.updateShoppingListLoading)).isTrue()
+        mainCoroutineRule.resumeDispatcher()
+        assertThat(getValue(sharedViewModel.updateShoppingListLoading)).isFalse()
+    }
+
+    @Test
+    fun deleteProductLoading() {
+        val product = Product(1L, "Name")
+        val productUi = product.asUiModel(ShoppingListType.CURRENT)
+        mainCoroutineRule.pauseDispatcher()
+        sharedViewModel.deleteProduct(productUi)
+        assertThat(getValue(sharedViewModel.deleteProductLoading)).isTrue()
+        mainCoroutineRule.resumeDispatcher()
+        assertThat(getValue(sharedViewModel.deleteProductLoading)).isFalse()
     }
 }

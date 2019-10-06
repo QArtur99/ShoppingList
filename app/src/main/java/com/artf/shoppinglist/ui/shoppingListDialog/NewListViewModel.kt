@@ -3,12 +3,12 @@ package com.artf.shoppinglist.ui.shoppingListDialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artf.shoppinglist.database.ShoppingList
-import com.artf.shoppinglist.repository.ShoppingListRepository
+import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NewListViewModel @Inject constructor(
-    private val shoppingListRepository: ShoppingListRepository
+    private val shoppingListRepository: ShoppingListRepositoryInt
 ) : ViewModel() {
 
     fun createShoppingList(name: String) {
