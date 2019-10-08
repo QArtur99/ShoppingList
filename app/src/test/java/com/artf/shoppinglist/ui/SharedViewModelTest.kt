@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.artf.shoppinglist.MainCoroutineRule
-import com.artf.shoppinglist.data.FakeShoppingListRepository
 import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.repository.ShoppingListRepository
@@ -36,26 +35,6 @@ class SharedViewModelTest {
     private val shoppingListRepository = mock(ShoppingListRepository::class.java)
     private val sharedViewModel = SharedViewModel(shoppingListRepository)
     private val shoppingList = mock(ShoppingList::class.java)
-
-    private lateinit var fakeShoppingListRepository: FakeShoppingListRepository
-    //private lateinit var sharedViewModel : SharedViewModel
-
-    // @Before
-    // fun setupViewModel() {
-    //     fakeShoppingListRepository.shoppingListData.apply {
-    //         add(ShoppingList(0L, "0"))
-    //         add(ShoppingList(1L, "1"))
-    //         add(ShoppingList(2L, "2"))
-    //     }
-    //
-    //     fakeShoppingListRepository.productData.apply {
-    //         add(Product(0L, "0", 1, shoppingListId= 0L))
-    //         add(Product(1L, "1", 1, shoppingListId= 1L))
-    //         add(Product(2L, "2", 1, shoppingListId= 2L))
-    //     }
-    //
-    //     sharedViewModel = SharedViewModel(fakeShoppingListRepository)
-    // }
 
     @Test
     fun testNull() {
