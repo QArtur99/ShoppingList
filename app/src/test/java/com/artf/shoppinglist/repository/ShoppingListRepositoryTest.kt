@@ -65,7 +65,6 @@ class ShoppingListRepositoryTest {
         Mockito.verify(shoppingListDao).deleteShoppingListItem(product)
     }
 
-
     @Test
     fun getCurrentShoppingList() {
         val shoppingLists = emptyList<ShoppingList>()

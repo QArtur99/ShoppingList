@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, The Android Open Source Project
+ * Copyright (C) 2019 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.artf.shoppinglist.util
 
+import android.app.Application
+import android.content.Context
+import androidx.test.runner.AndroidJUnitRunner
+import com.artf.shoppinglist.TestApp
+
 /**
- * A blocking version of TasksRepository.saveTask to minimize the number of times we have to
- * explicitly add <code>runBlocking { ... }</code> in our tests
+ * A custom [AndroidJUnitRunner] used to replace the application used in tests with a
+ * [TestTodoApplication].
  */
-// fun TasksRepository.saveTaskBlocking(task: Task) = runBlocking {
-//     this@saveTaskBlocking.saveTask(task)
-// }
-//
-// fun TasksRepository.getTasksBlocking(forceUpdate: Boolean) = runBlocking {
-//     this@getTasksBlocking.getTasks(forceUpdate)
-// }
-//
-// fun TasksRepository.deleteAllTasksBlocking() = runBlocking {
-//     this@deleteAllTasksBlocking.deleteAllTasks()
-// }
+class CustomTestRunner : AndroidJUnitRunner() {
+
+    override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
+        return super.newApplication(cl, TestApp::class.java.name, context)
+    }
+}

@@ -27,7 +27,6 @@ class FakeShoppingListRepository : ShoppingListRepositoryInt {
             productName = product.productName
             productQuantity = product.productQuantity
             shoppingListId = product.shoppingListId
-
         }
     }
 

@@ -9,12 +9,14 @@ import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.model.ProductUi
 import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
+import com.artf.shoppinglist.testing.OpenForTesting
 import com.artf.shoppinglist.util.ShoppingListType
 import com.artf.shoppinglist.util.asDbModel
 import com.artf.shoppinglist.util.asUiModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OpenForTesting
 class SharedViewModel @Inject constructor(
     private val shoppingListRepository: ShoppingListRepositoryInt
 ) : ViewModel() {

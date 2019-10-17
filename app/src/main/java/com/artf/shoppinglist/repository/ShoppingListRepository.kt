@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class ShoppingListRepository @Inject constructor(
     private val shoppingListDatabase: ShoppingListDatabaseDao,
     private val ioDispatcher: CoroutineDispatcher
-): ShoppingListRepositoryInt {
+) : ShoppingListRepositoryInt {
 
     override suspend fun updateShoppingList(shoppingList: ShoppingList) {
         withContext(ioDispatcher) {
