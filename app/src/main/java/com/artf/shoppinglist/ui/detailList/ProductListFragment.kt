@@ -6,24 +6,19 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.artf.shoppinglist.R
 import com.artf.shoppinglist.databinding.FragmentProductListBinding
 import com.artf.shoppinglist.model.ProductUi
 import com.artf.shoppinglist.ui.MainActivity
 import com.artf.shoppinglist.ui.SharedViewModel
 import com.artf.shoppinglist.ui.productDialog.NewProductDialog
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ProductListFragment : DaggerFragment() {
+class ProductListFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val sharedViewModel: SharedViewModel by activityViewModels { viewModelFactory }
+    private val sharedViewModel: SharedViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,11 +30,11 @@ class ProductListFragment : DaggerFragment() {
         binding.lifecycleOwner = this
         binding.recyclerView.adapter = ProductListAdapter(getListItemListener())
 
-        sharedViewModel.selectedShoppingList.observe(this, Observer {
+        sharedViewModel.selectedShoppingList.observe(viewLifecycleOwner, Observer {
             it?.let { NewProductDialog.shoppingListId = it.id }
         })
 
-        sharedViewModel.createItem.observe(this, Observer {
+        sharedViewModel.createItem.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val reviewDialog = NewProductDialog()
                 reviewDialog.show(parentFragmentManager, NewProductDialog::class.simpleName)

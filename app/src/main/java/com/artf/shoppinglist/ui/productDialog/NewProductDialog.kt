@@ -6,23 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.DialogFragment
 import com.artf.shoppinglist.R
 import com.artf.shoppinglist.databinding.DialogNewProductBinding
-import dagger.android.support.DaggerDialogFragment
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewProductDialog : DaggerDialogFragment() {
+class NewProductDialog : DialogFragment() {
 
     companion object {
         var shoppingListId = 0L
     }
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val newProductViewModel: NewProductViewModel by viewModels { viewModelFactory }
+    private val newProductViewModel: NewProductViewModel by viewModel()
 
     lateinit var binding: DialogNewProductBinding
 

@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.artf.shoppinglist.R
 import com.artf.shoppinglist.database.ShoppingList
@@ -14,15 +13,11 @@ import com.artf.shoppinglist.databinding.FragmentArchivedListBinding
 import com.artf.shoppinglist.ui.MainActivity
 import com.artf.shoppinglist.ui.SharedViewModel
 import com.artf.shoppinglist.util.ShoppingListType
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ArchivedListFragment : DaggerFragment() {
+class ArchivedListFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val sharedViewModel: SharedViewModel by activityViewModels { viewModelFactory }
+    private val sharedViewModel: SharedViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +30,7 @@ class ArchivedListFragment : DaggerFragment() {
         binding.recyclerView.adapter = ArchivedListAdapter(getListItemListener())
 
         sharedViewModel.setShoppingListType(ShoppingListType.ARCHIVED)
-        sharedViewModel.shoppingListType.observe(this, Observer {
+        sharedViewModel.shoppingListType.observe(viewLifecycleOwner, Observer {
             if (isThisDestination().not()) return@Observer
             if (it != ShoppingListType.CURRENT) return@Observer
             findNavController().navigate(R.id.action_archived_list_to_current_list)

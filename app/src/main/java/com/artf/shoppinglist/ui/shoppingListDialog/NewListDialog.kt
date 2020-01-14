@@ -6,19 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.DialogFragment
 import com.artf.shoppinglist.R
 import com.artf.shoppinglist.databinding.DialogNewListBinding
-import dagger.android.support.DaggerDialogFragment
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewListDialog : DaggerDialogFragment() {
+class NewListDialog : DialogFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val newListViewModel: NewListViewModel by viewModels { viewModelFactory }
+    private val newListViewModel: NewListViewModel by viewModel()
 
     lateinit var binding: DialogNewListBinding
 

@@ -19,15 +19,15 @@ package com.artf.shoppinglist.testing
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.artf.shoppinglist.R
-import dagger.android.support.DaggerAppCompatActivity
 
 /**
  * Used for testing fragments inside a fake activity.
  */
-class SingleFragmentActivity : DaggerAppCompatActivity() {
+class SingleFragmentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val content = FragmentContainerView(this).apply {

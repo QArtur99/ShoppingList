@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.artf.shoppinglist.R
 import com.artf.shoppinglist.database.ShoppingList
@@ -15,15 +14,11 @@ import com.artf.shoppinglist.databinding.FragmentCurrentListBinding
 import com.artf.shoppinglist.ui.SharedViewModel
 import com.artf.shoppinglist.ui.shoppingListDialog.NewListDialog
 import com.artf.shoppinglist.util.ShoppingListType
-import dagger.android.support.DaggerFragment
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-open class CurrentListFragment : DaggerFragment() {
+open class CurrentListFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val sharedViewModel: SharedViewModel by activityViewModels { viewModelFactory() }
+    private val sharedViewModel: SharedViewModel by viewModel()
 
     lateinit var binding: FragmentCurrentListBinding
 
@@ -38,7 +33,7 @@ open class CurrentListFragment : DaggerFragment() {
         binding.recyclerView.adapter = CurrentListAdapter(getListItemListener())
 
         sharedViewModel.setShoppingListType(ShoppingListType.CURRENT)
-        sharedViewModel.createItem.observe(this, Observer {
+        sharedViewModel.createItem.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val reviewDialog = NewListDialog()
                 reviewDialog.show(parentFragmentManager, NewListDialog::class.simpleName)
@@ -46,7 +41,7 @@ open class CurrentListFragment : DaggerFragment() {
             }
         })
 
-        sharedViewModel.shoppingListType.observe(this, Observer {
+        sharedViewModel.shoppingListType.observe(viewLifecycleOwner, Observer {
             if (isThisDestination().not()) return@Observer
             if (it != ShoppingListType.ARCHIVED) return@Observer
             navController().navigate(R.id.action_current_list_to_archived_list)
@@ -85,6 +80,4 @@ open class CurrentListFragment : DaggerFragment() {
     }
 
     open fun navController() = findNavController()
-
-    open fun viewModelFactory() = viewModelFactory
 }

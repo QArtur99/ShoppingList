@@ -1,12 +1,26 @@
 package com.artf.shoppinglist
 
-import com.artf.shoppinglist.di.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import android.app.Application
+import com.artf.shoppinglist.di.dataModule
+import com.artf.shoppinglist.di.vmModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
-class App : DaggerApplication() {
+class App : Application() {
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.factory().create(applicationContext)
+    private val TAG = App::class.java.simpleName
+
+    override fun onCreate() {
+        super.onCreate()
+        startKoin()
+    }
+
+    private fun startKoin() {
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(listOf(dataModule, vmModule))
+        }
     }
 }

@@ -13,14 +13,15 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.artf.shoppinglist.R
+import com.artf.shoppinglist.TestApp
 import com.artf.shoppinglist.database.ShoppingList
 import com.artf.shoppinglist.testing.SingleFragmentActivity
 import com.artf.shoppinglist.ui.currentList.CurrentListFragment
 import com.artf.shoppinglist.util.LiveDataTestUtil.getValueUI
 import com.artf.shoppinglist.util.ShoppingListType
-import com.artf.shoppinglist.util.ViewModelUtil
 import com.artf.shoppinglist.util.clickChildViewWithId
 import com.artf.shoppinglist.util.mock
 import com.artf.shoppinglist.util.waitForAdapterChange
@@ -30,6 +31,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.doAnswer
@@ -51,7 +54,7 @@ class CurrentListFragmentTest {
     @Rule
     @JvmField
     val activityRule = ActivityTestRule(SingleFragmentActivity::class.java, true, true)
-
+    val application = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApp
     private val sharedViewModel: SharedViewModel = Mockito.mock(SharedViewModel::class.java)
     private val currentListFragment = TestCurrentListFragment(sharedViewModel)
 
@@ -67,12 +70,15 @@ class CurrentListFragmentTest {
 
     @Before
     fun init() {
+        application.injectModule(
+            module { viewModel(override = true) { sharedViewModel } }
+        )
+
         `when`(sharedViewModel.shoppingLists).thenReturn(shoppingLists)
         `when`(sharedViewModel.createItem).thenReturn(createItem)
         `when`(sharedViewModel.shoppingListType).thenReturn(shoppingListType)
         doAnswer { createItem.postValue(null) }.`when`(sharedViewModel).onFabClicked(null)
 
-        currentListFragment.viewModelFactory = ViewModelUtil.createFor(sharedViewModel)
         activityRule.activity.setFragment(currentListFragment)
     }
 
@@ -128,6 +134,5 @@ class CurrentListFragmentTest {
         val navController = mock<NavController>()
         override fun isThisDestination() = true
         override fun navController() = navController
-        override fun viewModelFactory() = ViewModelUtil.createFor(sharedViewModel)
     }
 }

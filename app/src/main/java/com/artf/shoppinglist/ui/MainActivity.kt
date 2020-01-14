@@ -3,21 +3,17 @@ package com.artf.shoppinglist.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.artf.shoppinglist.R
 import com.artf.shoppinglist.databinding.ActivityMainBinding
 import com.artf.shoppinglist.util.ShoppingListType
-import dagger.android.support.DaggerAppCompatActivity
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : DaggerAppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val sharedViewModel: SharedViewModel by viewModel()
 
-    private val sharedViewModel: SharedViewModel by viewModels { viewModelFactory }
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

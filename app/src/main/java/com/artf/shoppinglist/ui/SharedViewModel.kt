@@ -14,10 +14,9 @@ import com.artf.shoppinglist.util.ShoppingListType
 import com.artf.shoppinglist.util.asDbModel
 import com.artf.shoppinglist.util.asUiModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @OpenForTesting
-class SharedViewModel @Inject constructor(
+class SharedViewModel constructor(
     private val shoppingListRepository: ShoppingListRepositoryInt
 ) : ViewModel() {
 

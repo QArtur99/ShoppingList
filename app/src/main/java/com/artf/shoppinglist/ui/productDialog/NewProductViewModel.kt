@@ -7,9 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.artf.shoppinglist.database.Product
 import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class NewProductViewModel @Inject constructor(
+class NewProductViewModel constructor(
     private val shoppingListRepository: ShoppingListRepositoryInt
 ) : ViewModel() {
 
