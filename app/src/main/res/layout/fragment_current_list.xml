@@ -23,13 +23,13 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="12dp"
+            android:clipToPadding="false"
             android:paddingStart="12dp"
+            android:paddingTop="12dp"
             android:paddingEnd="12dp"
             android:paddingBottom="86dp"
-            android:clipToPadding="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:currentLists="@{sharedViewModel.shoppingLists}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
             tools:listitem="@layout/item_current_shopping_list" />
 
@@ -41,6 +41,32 @@
             android:layout_centerInParent="true"
             app:isShoppingListsEmpty="@{sharedViewModel.isShoppingListsEmpty}" />
 
+        <RelativeLayout
+            android:id="@+id/cardViewContainer"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="340dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                app:cardElevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                app:cardBackgroundColor="@color/colorPrimary">
+
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:src="@drawable/ic_add_black_24dp" />
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -49,8 +75,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{() -> sharedViewModel.onFabClicked(true)}"
-            android:src="@drawable/ic_add_black_24dp"
-            android:elevation="@dimen/fab_elevation" />
+            android:elevation="@dimen/fab_elevation"
+            android:src="@drawable/ic_add_black_24dp" />
     </RelativeLayout>
 </layout>

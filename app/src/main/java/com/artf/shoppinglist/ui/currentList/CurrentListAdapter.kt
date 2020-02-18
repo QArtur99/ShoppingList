@@ -26,7 +26,7 @@ class CurrentListAdapter(
         )
     }
 
-    class MsgViewHolder constructor(private val binding: ItemCurrentShoppingListBinding) :
+    class MsgViewHolder constructor(val binding: ItemCurrentShoppingListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clickListenerInt: ClickListenerInt, item: ShoppingList) {
