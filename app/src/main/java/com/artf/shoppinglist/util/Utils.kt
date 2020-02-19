@@ -42,4 +42,4 @@ fun circularRevealOut(view: View, time: Long, doOnEnd: () -> Unit) {
 
 
 inline val LinearLayoutManager.visibleItemsRange: IntRange
-    get() = findFirstVisibleItemPosition()..findLastVisibleItemPosition()
+    get() = findFirstVisibleItemPosition()..findLastVisibleItemPosition()+1
