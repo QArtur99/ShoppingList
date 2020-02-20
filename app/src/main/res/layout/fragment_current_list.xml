@@ -23,6 +23,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
             android:clipToPadding="false"
             android:paddingStart="12dp"
             android:paddingTop="12dp"
@@ -41,33 +42,9 @@
             android:layout_centerInParent="true"
             app:isShoppingListsEmpty="@{sharedViewModel.isShoppingListsEmpty}" />
 
-        <RelativeLayout
-            android:id="@+id/cardViewContainer"
-            android:layout_width="match_parent"
-            android:layout_height="340dp"
-            android:layout_alignParentBottom="true">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:visibility="invisible"
-                app:cardBackgroundColor="@color/colorPrimary"
-                app:cardElevation="0dp">
-
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/ic_add_black_24dp"
-                    app:backgroundTint="@color/colorPrimary"
-                    app:elevation="0dp" />
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+        <include
+            android:id="@+id/incContainer"
+            layout="@layout/include_card" />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

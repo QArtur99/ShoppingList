@@ -10,4 +10,6 @@
 
     <color name="colorItem">#FFFFFF</color>
     <color name="colorBackground">#EEEEEE</color>
+
+    <color name="filter_icon_color">#EEEEEE</color>
 </resources>
