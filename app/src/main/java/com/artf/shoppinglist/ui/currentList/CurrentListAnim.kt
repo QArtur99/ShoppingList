@@ -14,6 +14,15 @@ import com.artf.shoppinglist.util.visibleItemsRange
 
 object CurrentListAnim {
 
+    private lateinit var binding: FragmentCurrentListBinding
+    private val size by lazy {
+        val lm = binding.recyclerView.layoutManager as LinearLayoutManager
+        val pos = lm.findFirstVisibleItemPosition()
+        val viewHolder = binding.recyclerView.findViewHolderForLayoutPosition(pos)
+        val container = (viewHolder as CurrentListAdapter.MsgViewHolder).binding.container
+        Pair(container.width, container.height)
+    }
+
     fun animArcMotionFab(binding: FragmentCurrentListBinding) {
         val animArcMotionFab = getAnimArcMotionFab(binding)
         val animRevealCard = getAnimRevealCard(binding)
@@ -39,7 +48,7 @@ object CurrentListAnim {
             binding.cardViewContainer.y + binding.cardViewContainer.height / 2 - binding.fab.height / 2f
         val path = x.getPath(endX, endY, startX, startY)
         val objectAnimator = ObjectAnimator.ofFloat(binding.fab, "x", "y", path)
-        objectAnimator.duration = 600
+        objectAnimator.duration = 400
         return objectAnimator
     }
 
@@ -54,7 +63,9 @@ object CurrentListAnim {
             binding.cardView.apply {
                 layoutParams.width = (card_width * value).toInt()
                 layoutParams.height = (card_height * value).toInt()
-                radius = layoutParams.width / 2f * (1 - if (0.99f > value) value else 1f)
+                val rad = 1 - value
+                val x = if (rad > 0.01f) rad else 0f
+                radius = layoutParams.width / 2f * x
                 requestLayout()
             }
         }
@@ -72,20 +83,20 @@ object CurrentListAnim {
     private fun getAnimScaleDownRecyclerView(binding: FragmentCurrentListBinding): ValueAnimator {
         val scaleDown = ObjectAnimator.ofFloat(1f, 0.8f)
         val lm = binding.recyclerView.layoutManager as LinearLayoutManager
+        this.binding = binding
 
         scaleDown.addUpdateListener {
             val value = it.animatedValue as Float
             for (i in lm.visibleItemsRange) {
                 val viewHolder = binding.recyclerView.findViewHolderForLayoutPosition(i) ?: break
-                val holder = viewHolder as CurrentListAdapter.MsgViewHolder
-                val container = holder.binding.container
-                container.layoutParams.width = (700 * value).toInt()
-                container.layoutParams.height = (150 * value).toInt()
+                val container = (viewHolder as CurrentListAdapter.MsgViewHolder).binding.container
+                container.layoutParams.width = (size.first * value).toInt()
+                container.layoutParams.height = (size.second * value).toInt()
                 container.alpha = 1f * value
                 container.requestLayout()
             }
         }
-        scaleDown.duration = 600
+        scaleDown.duration = 400
         return scaleDown
     }
 }
