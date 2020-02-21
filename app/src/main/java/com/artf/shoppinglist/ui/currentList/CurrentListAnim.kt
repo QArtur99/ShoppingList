@@ -2,9 +2,11 @@ package com.artf.shoppinglist.ui.currentList
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.RelativeLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.content.ContextCompat
@@ -14,12 +16,24 @@ import androidx.transition.ArcMotion
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import com.artf.shoppinglist.R
 import com.artf.shoppinglist.databinding.FragmentCurrentListBinding
+import com.artf.shoppinglist.databinding.IncludeCardBinding
 import com.artf.shoppinglist.util.visibleItemsRange
 
-object CurrentListAnim {
+class CurrentListAnim(
+    private val binding: FragmentCurrentListBinding,
+    private val binding2: IncludeCardBinding
+) {
+
+    private val fab by lazy {
+        val fab = binding.fab
+        arrayOf(fab.x, fab.y, fab.width.toFloat(), fab.height.toFloat())
+    }
+    private val card by lazy {
+        val fab = binding2.cardView
+        arrayOf(fab.x, fab.y, fab.width.toFloat(), fab.height.toFloat())
+    }
 
     private val colorEvaluator = ArgbEvaluator()
-    private lateinit var binding: FragmentCurrentListBinding
     private val size by lazy {
         val lm = binding.recyclerView.layoutManager as LinearLayoutManager
         val pos = lm.findFirstVisibleItemPosition()
@@ -28,15 +42,16 @@ object CurrentListAnim {
         Pair(container.width, container.height)
     }
 
-    fun animArcMotionFab(binding: FragmentCurrentListBinding) {
-        val animArcMotionFab = getAnimArcMotionFab(binding)
-        val animScaleDownRecyclerView = getAnimScaleDownRecyclerView(binding)
+    fun animArcMotionFab() {
+        val animArcMotionFab = getAnimArcMotionFab(false)
+        val animScaleDownRecyclerView = getAnimScaleDownRecyclerView(false)
 
-        val animRevealCard = getAnimRevealCard(binding)
-        val animFadeOutFab = getAnimFadeOut(binding)
+        val animRevealCard = getAnimRevealCard(false)
+        val animFadeOutFab = getAnimFadeOut(false)
 
-        val animTransitionXBottomBar = getAnimColoTranslationBottomBar(binding)
-        val animColoTranslationBottomBar = getAnimTranslationBottomBar(binding)
+        val animTransitionXBottomBar = getAnimColoTranslationBottomBar(false)
+        val animColoTranslationBottomBar = getAnimTranslationBottomBar(false)
+        val animTranslationTopmBar = getAnimTranslationTopmBar(false)
 
         animArcMotionFab.doOnEnd {
             val set = AnimatorSet()
@@ -44,14 +59,28 @@ object CurrentListAnim {
             set.start()
         }
 
+        animRevealCard.doOnStart {
+            binding2.bottomBarContainer.translationX = -binding2.cardView.width / 4f
+            binding2.cardView.visibility = View.VISIBLE
+        }
+
         animRevealCard.doOnEnd {
-            val binding = binding.incContainer
-            binding.bottomBarContainer.visibility = View.VISIBLE
-            binding.fab3.visibility = View.INVISIBLE
+            binding2.bottomBarContainer.visibility = View.VISIBLE
+            binding2.cardTitle.visibility = View.VISIBLE
+            binding2.fab3.visibility = View.INVISIBLE
 
             val set = AnimatorSet()
-            set.playTogether(animTransitionXBottomBar, animColoTranslationBottomBar)
+            set.playTogether(
+                animTransitionXBottomBar,
+                animColoTranslationBottomBar,
+                animTranslationTopmBar
+            )
             set.start()
+        }
+
+        animTranslationTopmBar.doOnEnd {
+            binding2.cardTitle.elevation = 8f
+            binding2.bottomBarContainer.elevation = 8f
         }
 
         val set = AnimatorSet()
@@ -59,101 +88,184 @@ object CurrentListAnim {
         set.start()
     }
 
-    private fun getAnimArcMotionFab(binding: FragmentCurrentListBinding): ObjectAnimator {
-        val binding2 = binding.incContainer
+    fun animArcMotionFabRevers() {
+        val animArcMotionFab = getAnimArcMotionFab(true)
+        val animScaleDownRecyclerView = getAnimScaleDownRecyclerView(true)
+
+        val animRevealCard = getAnimRevealCard(true)
+        val animFadeOutFab = getAnimFadeOut(true)
+
+        val animTransitionXBottomBar = getAnimColoTranslationBottomBar(true)
+        val animColoTranslationBottomBar = getAnimTranslationBottomBar(true)
+        val animTranslationTopmBar = getAnimTranslationTopmBar(true)
+
+        animFadeOutFab.doOnEnd {
+            val set = AnimatorSet()
+            set.playTogether(animScaleDownRecyclerView, animArcMotionFab)
+            set.start()
+        }
+
+        animRevealCard.doOnEnd {
+            binding2.bottomBarContainer.translationX = 0f
+            binding2.cardView.visibility = View.INVISIBLE
+
+            val set = AnimatorSet()
+            set.playTogether(animFadeOutFab)
+            set.start()
+        }
+
+        animTranslationTopmBar.doOnEnd {
+            binding2.bottomBarContainer.visibility = View.INVISIBLE
+            binding2.cardTitle.visibility = View.INVISIBLE
+            binding2.fab3.visibility = View.VISIBLE
+
+            val set = AnimatorSet()
+            set.playTogether(animRevealCard)
+            set.start()
+        }
+
+        animTranslationTopmBar.doOnStart {
+            binding2.cardTitle.elevation = 0f
+            binding2.bottomBarContainer.elevation = 0f
+        }
+
+        val set = AnimatorSet()
+        set.playTogether(
+            animTransitionXBottomBar,
+            animColoTranslationBottomBar,
+            animTranslationTopmBar
+        )
+        set.start()
+    }
+
+    private fun getAnimArcMotionFab(isRevers: Boolean): ObjectAnimator {
+        val cardView = binding2.cardViewContainer
+        val container = binding2.cardViewContainer
+
         val x = ArcMotion().apply { maximumAngle = 90f }
-        val endX = binding.fab.x
-        val endY = binding.fab.y
-
-        val startX = binding2.cardView.x + binding2.cardView.width / 2f - binding.fab.width / 2f
-        val startY =
-            binding2.cardViewContainer.y + binding2.cardViewContainer.height / 2 - binding.fab.height / 2f
-        val path = x.getPath(endX, endY, startX, startY)
-        val objectAnimator = ObjectAnimator.ofFloat(binding.fab, "x", "y", path)
-        objectAnimator.duration = 400
-        return objectAnimator
-    }
-
-    private fun getAnimRevealCard(binding: FragmentCurrentListBinding): ValueAnimator {
-        val binding2 = binding.incContainer
-        val card_width = binding2.cardView.width
-        val card_height = binding2.cardView.height
-        val revealIn = ObjectAnimator.ofFloat(0.3f, 1f)
-
-        revealIn.interpolator = AccelerateDecelerateInterpolator()
-        revealIn.addUpdateListener {
-            val value = it.animatedValue as Float
-            binding2.cardView.apply {
-                layoutParams.width = (card_width * value).toInt()
-                layoutParams.height = (card_height * value).toInt()
-                val rad = 1 - value
-                val x = if (rad > 0.01f) rad else 0f
-                radius = layoutParams.width / 2f * x
-                requestLayout()
-            }
+        val endX = fab[0]
+        val endY = fab[1]
+        val startX = cardView.x + cardView.width / 2f - fab[2] / 2f
+        val startY = container.y + container.height / 2 - fab[3] / 2f
+        val path = when (isRevers) {
+            true -> x.getPath(startX, startY, endX, endY)
+            false -> x.getPath(endX, endY, startX, startY)
         }
-        revealIn.doOnStart {
-            binding2.bottomBarContainer.translationX = -card_width / 4f
-            binding2.cardView.visibility = View.VISIBLE
+        return ObjectAnimator.ofFloat(binding.fab, "x", "y", path).apply {
+            duration = 400
         }
-        revealIn.duration = 600
-        return revealIn
     }
 
-    private fun getAnimColoTranslationBottomBar(binding: FragmentCurrentListBinding): ObjectAnimator {
-        val binding2 = binding.incContainer
-        val objectAnimator = ObjectAnimator.ofObject(
-            binding2.bottomBarContainer,
-            "backgroundColor",
-            colorEvaluator,
-            ContextCompat.getColor(binding.root.context, R.color.colorPrimary),
-            ContextCompat.getColor(binding.root.context, R.color.colorPrimaryDark)
-        )
-        objectAnimator.duration = 300
-        return objectAnimator
+    private fun getAnimRevealCard(isRevers: Boolean): ValueAnimator {
+        val forwardX = 0.2f
+        val forwardY = 1f
+        val value = if (isRevers) Pair(forwardY, forwardX) else Pair(forwardX, forwardY)
+        return ObjectAnimator().apply {
+            duration = 600
+            interpolator = AccelerateDecelerateInterpolator()
+            setFloatValues(value.first, value.second)
+            addUpdateListener { resizeCardView(it.animatedValue as Float) }
+        }
     }
 
-    private fun getAnimTranslationBottomBar(binding: FragmentCurrentListBinding): ValueAnimator {
-        val binding2 = binding.incContainer
-
-        val fadeOut = ObjectAnimator.ofFloat(
-            binding2.bottomBarContainer,
-            "translationX",
-            -binding2.bottomBarContainer.width / 4f,
-            0f
-        )
-        fadeOut.duration = 300
-        return fadeOut
+    private fun resizeCardView(newValue: Float) {
+        binding2.cardView.apply {
+            layoutParams.width = (card[2] * newValue).toInt()
+            layoutParams.height = (card[3] * newValue).toInt()
+            val rad = 1 - newValue
+            val x = if (rad > 0.01f) rad else 0f
+            radius = layoutParams.width / 2f * x
+            requestLayout()
+        }
     }
 
-    private fun getAnimFadeOut(binding: FragmentCurrentListBinding): ObjectAnimator {
-        val fadeOut = ObjectAnimator.ofFloat(binding.fab, "alpha", 1f, 0f)
-        fadeOut.duration = 1
-        return fadeOut
+    private fun getAnimColoTranslationBottomBar(isRevers: Boolean): ObjectAnimator {
+        val forwardX = ContextCompat.getColor(binding.root.context, R.color.colorPrimary)
+        val forwardY = ContextCompat.getColor(binding.root.context, R.color.colorPrimaryDark)
+        val value = if (isRevers) Pair(forwardY, forwardX) else Pair(forwardX, forwardY)
+
+        return ObjectAnimator().apply {
+            target = binding2.bottomBarContainer
+            duration = 300
+            setPropertyName("backgroundColor")
+            setIntValues(value.first, value.second)
+            setEvaluator(colorEvaluator)
+        }
     }
 
-    private fun getAnimScaleDownRecyclerView(binding: FragmentCurrentListBinding): ValueAnimator {
-        val scaleDown = ObjectAnimator.ofFloat(1f, 0.8f)
+    private fun getAnimTranslationBottomBar(isRevers: Boolean): ValueAnimator {
+        val forwardX = -binding2.bottomBarContainer.width / 4f
+        val forwardY = 0f
+        val value = if (isRevers) Pair(forwardY, forwardX) else Pair(forwardX, forwardY)
+
+        return ObjectAnimator().apply {
+            target = binding2.bottomBarContainer
+            duration = 300
+            setPropertyName("translationX")
+            setFloatValues(value.first, value.second)
+        }
+    }
+
+    private fun getAnimTranslationTopmBar(isRevers: Boolean): ValueAnimator {
+        val forwardX = 0f
+        val forwardY = binding2.cardTitle.height * -1f
+        val value = if (isRevers) Pair(forwardY, forwardX) else Pair(forwardX, forwardY)
+
+        return ObjectAnimator().apply {
+            target = binding2.cardTitle
+            duration = 300
+            setPropertyName("translationY")
+            setFloatValues(value.first, value.second)
+        }
+    }
+
+    private fun getAnimFadeOut(isRevers: Boolean): ObjectAnimator {
+        val forwardX = 1f
+        val forwardY = 0f
+        val value = if (isRevers) Pair(forwardY, forwardX) else Pair(forwardX, forwardY)
+
+        return ObjectAnimator().apply {
+            target = binding.fab
+            duration = 1
+            setPropertyName("alpha")
+            setFloatValues(value.first, value.second)
+        }
+    }
+
+    private fun getAnimScaleDownRecyclerView(isRevers: Boolean): ValueAnimator {
+        val forwardX = 1f
+        val forwardY = 0.8f
+        val value = if (isRevers) Pair(forwardY, forwardX) else Pair(forwardX, forwardY)
+
+        return ObjectAnimator().apply {
+            duration = 400
+            setFloatValues(value.first, value.second)
+            addUpdateListener { resizeRecyclerViewItems(it.animatedValue as Float) }
+        }
+    }
+
+    private fun resizeRecyclerViewItems(newValue: Float) {
         val lm = binding.recyclerView.layoutManager as LinearLayoutManager
-        this.binding = binding
-
-        scaleDown.addUpdateListener {
-            val value = it.animatedValue as Float
-            for (i in lm.visibleItemsRange) {
-                val viewHolder = binding.recyclerView.findViewHolderForLayoutPosition(i) ?: break
-                val container = (viewHolder as CurrentListAdapter.MsgViewHolder).binding.container
-                container.children.toList().map { view ->
-                    view.scaleX = value
-                    view.scaleY = value
-                    view.alpha = 1f * value
-                }
-                container.layoutParams.width = (size.first * value).toInt()
-                container.layoutParams.height = (size.second * value).toInt()
-                container.alpha = 1f * value
-                container.requestLayout()
-            }
+        for (i in lm.visibleItemsRange) {
+            val container = getHolderContainer(i) ?: break
+            scaleChildren(container, newValue)
+            container.layoutParams.width = (size.first * newValue).toInt()
+            container.layoutParams.height = (size.second * newValue).toInt()
+            container.alpha = 1f * newValue
+            container.requestLayout()
         }
-        scaleDown.duration = 400
-        return scaleDown
+    }
+
+    private fun scaleChildren(container: RelativeLayout, newValue: Float) {
+        container.children.toList().map { view ->
+            view.scaleX = newValue
+            view.scaleY = newValue
+            view.alpha = 1f * newValue
+        }
+    }
+
+    private fun getHolderContainer(pos: Int): RelativeLayout? {
+        val viewHolder = binding.recyclerView.findViewHolderForLayoutPosition(pos) ?: return null
+        return (viewHolder as CurrentListAdapter.MsgViewHolder).binding.container
     }
 }

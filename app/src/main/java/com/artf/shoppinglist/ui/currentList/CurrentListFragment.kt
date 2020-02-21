@@ -21,6 +21,7 @@ open class CurrentListFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by viewModel()
 
     lateinit var binding: FragmentCurrentListBinding
+    lateinit var anim: CurrentListAnim
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +31,8 @@ open class CurrentListFragment : Fragment() {
         binding = FragmentCurrentListBinding.inflate(LayoutInflater.from(context))
         binding.sharedViewModel = sharedViewModel
         binding.lifecycleOwner = this
+        anim = CurrentListAnim(binding, binding.incContainer)
+
         binding.recyclerView.adapter = CurrentListAdapter(getListItemListener())
 
         sharedViewModel.setShoppingListType(ShoppingListType.CURRENT)
@@ -52,12 +55,15 @@ open class CurrentListFragment : Fragment() {
 
         binding.fab.setOnClickListener {
             //sharedViewModel.onFabClicked(true)
-            CurrentListAnim.animArcMotionFab(binding)
+            anim.animArcMotionFab()
+        }
+
+        binding.incContainer.filterIcon.setOnClickListener {
+            anim.animArcMotionFabRevers()
         }
 
         return binding.root
     }
-
 
     private fun getListItemListener(): CurrentListAdapter.ClickListenerInt {
         return object : CurrentListAdapter.ClickListenerInt {

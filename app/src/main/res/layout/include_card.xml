@@ -7,13 +7,32 @@
         android:id="@+id/cardViewContainer"
         android:layout_width="match_parent"
         android:layout_height="340dp"
+        android:clipChildren="false"
         android:layout_alignParentBottom="true"
         tools:showIn="@layout/fragment_current_list">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cardTitle"
+                android:text="@string/add_new_product"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                android:padding="16dp"
+                android:gravity="start|center_vertical"
+                android:visibility="invisible" />
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="340dp"
             android:layout_centerInParent="true"
             android:visibility="invisible"
             app:cardBackgroundColor="@color/colorPrimary"
