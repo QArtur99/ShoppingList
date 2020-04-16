@@ -1,9 +1,9 @@
 package com.artf.shoppinglist.di.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.artf.shoppinglist.ui.SharedViewModel
-import com.artf.shoppinglist.ui.productDialog.NewProductViewModel
-import com.artf.shoppinglist.ui.shoppingListDialog.NewListViewModel
+import com.artf.shoppinglist.ui.view.SharedViewModel
+import com.artf.shoppinglist.ui.view.productDialog.NewProductViewModel
+import com.artf.shoppinglist.ui.view.shoppingListDialog.NewListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

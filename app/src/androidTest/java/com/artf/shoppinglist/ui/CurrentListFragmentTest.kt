@@ -15,9 +15,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import androidx.test.rule.ActivityTestRule
 import com.artf.shoppinglist.R
-import com.artf.shoppinglist.database.ShoppingList
+import com.artf.shoppinglist.data.database.model.ShoppingList
 import com.artf.shoppinglist.testing.SingleFragmentActivity
-import com.artf.shoppinglist.ui.currentList.CurrentListFragment
+import com.artf.shoppinglist.ui.view.SharedViewModel
+import com.artf.shoppinglist.ui.view.currentList.CurrentListFragment
 import com.artf.shoppinglist.util.LiveDataTestUtil.getValueUI
 import com.artf.shoppinglist.util.ShoppingListType
 import com.artf.shoppinglist.util.ViewModelUtil
@@ -52,7 +53,8 @@ class CurrentListFragmentTest {
     @JvmField
     val activityRule = ActivityTestRule(SingleFragmentActivity::class.java, true, true)
 
-    private val sharedViewModel: SharedViewModel = Mockito.mock(SharedViewModel::class.java)
+    private val sharedViewModel: SharedViewModel = Mockito.mock(
+        SharedViewModel::class.java)
     private val currentListFragment = TestCurrentListFragment(sharedViewModel)
 
     private val shoppingLists = MutableLiveData<List<ShoppingList>>()

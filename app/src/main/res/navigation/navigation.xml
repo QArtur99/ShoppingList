@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_current_list"
-        android:name="com.artf.shoppinglist.ui.currentList.CurrentListFragment"
+        android:name="com.artf.shoppinglist.ui.view.currentList.CurrentListFragment"
         android:label="fragment_current_list">
         <action
             android:id="@+id/action_current_list_to_archived_list"
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/fragment_archived_list"
-        android:name="com.artf.shoppinglist.ui.archivedList.ArchivedListFragment"
+        android:name="com.artf.shoppinglist.ui.view.archivedList.ArchivedListFragment"
         android:label="fragment_archived_list">
         <action
             android:id="@+id/action_archived_list_to_current_list"
@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/fragment_product_list"
-        android:name="com.artf.shoppinglist.ui.detailList.ProductListFragment"
+        android:name="com.artf.shoppinglist.ui.view.detailList.ProductListFragment"
         android:label="fragment_product_list" />
 
 

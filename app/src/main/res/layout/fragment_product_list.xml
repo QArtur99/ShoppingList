@@ -9,7 +9,7 @@
 
         <variable
             name="sharedViewModel"
-            type="com.artf.shoppinglist.ui.SharedViewModel" />
+            type="com.artf.shoppinglist.ui.view.SharedViewModel" />
     </data>
 
     <RelativeLayout
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
         app:bgColor="@{sharedViewModel.isProductListsEmpty}"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.view.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

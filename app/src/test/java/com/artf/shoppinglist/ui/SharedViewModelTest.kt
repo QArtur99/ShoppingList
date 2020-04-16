@@ -4,12 +4,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.artf.shoppinglist.MainCoroutineRule
-import com.artf.shoppinglist.database.Product
-import com.artf.shoppinglist.database.ShoppingList
-import com.artf.shoppinglist.repository.ShoppingListRepository
+import com.artf.shoppinglist.data.database.model.Product
+import com.artf.shoppinglist.data.database.model.ShoppingList
+import com.artf.shoppinglist.data.repository.ShoppingListRepository
 import com.artf.shoppinglist.util.LiveDataTestUtil.getValue
 import com.artf.shoppinglist.util.ShoppingListType
-import com.artf.shoppinglist.util.asUiModel
+import com.artf.shoppinglist.ui.data.asUiModel
+import com.artf.shoppinglist.ui.view.SharedViewModel
 import com.artf.shoppinglist.util.mock
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,7 +34,8 @@ class SharedViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val shoppingListRepository = mock(ShoppingListRepository::class.java)
-    private val sharedViewModel = SharedViewModel(shoppingListRepository)
+    private val sharedViewModel =
+        SharedViewModel(shoppingListRepository)
     private val shoppingList = mock(ShoppingList::class.java)
 
     @Test
@@ -153,7 +155,8 @@ class SharedViewModelTest {
 
     @Test
     fun deleteProductLoading() {
-        val product = Product(1L, "Name")
+        val product =
+            Product(1L, "Name")
         val productUi = product.asUiModel(ShoppingListType.CURRENT)
         mainCoroutineRule.pauseDispatcher()
         sharedViewModel.deleteProduct(productUi)

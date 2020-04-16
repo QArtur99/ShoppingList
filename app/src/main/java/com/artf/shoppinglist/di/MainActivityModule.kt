@@ -1,6 +1,6 @@
 package com.artf.shoppinglist.di
 
-import com.artf.shoppinglist.ui.MainActivity
+import com.artf.shoppinglist.ui.view.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

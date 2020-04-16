@@ -6,11 +6,11 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.artf.shoppinglist.R
-import com.artf.shoppinglist.database.ShoppingList
-import com.artf.shoppinglist.model.ProductUi
-import com.artf.shoppinglist.ui.archivedList.ArchivedListAdapter
-import com.artf.shoppinglist.ui.currentList.CurrentListAdapter
-import com.artf.shoppinglist.ui.detailList.ProductListAdapter
+import com.artf.shoppinglist.data.database.model.ShoppingList
+import com.artf.shoppinglist.ui.data.model.ProductUi
+import com.artf.shoppinglist.ui.view.archivedList.ArchivedListAdapter
+import com.artf.shoppinglist.ui.view.currentList.CurrentListAdapter
+import com.artf.shoppinglist.ui.view.detailList.ProductListAdapter
 import java.util.Date
 
 @BindingAdapter("currentLists")

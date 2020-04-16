@@ -6,11 +6,11 @@
 
         <variable
             name="item"
-            type="com.artf.shoppinglist.model.ProductUi" />
+            type="com.artf.shoppinglist.ui.data.model.ProductUi" />
 
         <variable
             name="clickListenerInt"
-            type="com.artf.shoppinglist.ui.detailList.ProductListAdapter.ClickListenerInt" />
+            type="com.artf.shoppinglist.ui.view.detailList.ProductListAdapter.ClickListener" />
     </data>
 
     <LinearLayout

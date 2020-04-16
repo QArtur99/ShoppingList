@@ -6,11 +6,11 @@
 
         <variable
             name="item"
-            type="com.artf.shoppinglist.database.ShoppingList" />
+            type="com.artf.shoppinglist.data.database.model.ShoppingList" />
 
         <variable
             name="clickListenerInt"
-            type="com.artf.shoppinglist.ui.archivedList.ArchivedListAdapter.ClickListenerInt" />
+            type="com.artf.shoppinglist.ui.view.archivedList.ArchivedListAdapter.ClickListener" />
     </data>
 
     <RelativeLayout

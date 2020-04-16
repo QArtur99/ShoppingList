@@ -2,8 +2,8 @@ package com.artf.shoppinglist.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.artf.shoppinglist.MainCoroutineRule
-import com.artf.shoppinglist.repository.ShoppingListRepository
-import com.artf.shoppinglist.ui.shoppingListDialog.NewListViewModel
+import com.artf.shoppinglist.data.repository.ShoppingListRepository
+import com.artf.shoppinglist.ui.view.shoppingListDialog.NewListViewModel
 import com.artf.shoppinglist.util.LiveDataTestUtil
 import com.google.common.truth.Truth
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +24,10 @@ class NewListViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val shoppingListRepository = Mockito.mock(ShoppingListRepository::class.java)
-    private val newListVM = NewListViewModel(shoppingListRepository)
+    private val newListVM =
+        NewListViewModel(
+            shoppingListRepository
+        )
 
     @Test
     fun createProduct() {

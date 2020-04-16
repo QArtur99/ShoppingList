@@ -2,13 +2,13 @@ package com.artf.shoppinglist.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.artf.shoppinglist.database.Product
-import com.artf.shoppinglist.database.ShoppingList
-import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
+import com.artf.shoppinglist.data.database.model.Product
+import com.artf.shoppinglist.data.database.model.ShoppingList
+import com.artf.shoppinglist.data.repository.ShoppingListRepository
 import com.artf.shoppinglist.testing.OpenForTesting
 
 @OpenForTesting
-class FakeShoppingListRepository : ShoppingListRepositoryInt {
+class FakeShoppingListRepository : ShoppingListRepository {
 
     var shoppingListData: MutableList<ShoppingList> = mutableListOf()
     var productData: MutableList<Product> = mutableListOf()

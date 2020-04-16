@@ -1,11 +1,11 @@
 package com.artf.shoppinglist.di
 
 import android.content.Context
-import com.artf.shoppinglist.database.ShoppingListDatabase
-import com.artf.shoppinglist.database.ShoppingListDatabaseDao
+import com.artf.shoppinglist.data.database.ShoppingListDatabase
+import com.artf.shoppinglist.data.database.ShoppingListDatabaseDao
 import com.artf.shoppinglist.di.viewModel.ViewModelModule
-import com.artf.shoppinglist.repository.ShoppingListRepository
-import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
+import com.artf.shoppinglist.data.repository.ShoppingListRepositoryImpl
+import com.artf.shoppinglist.data.repository.ShoppingListRepository
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,8 +28,8 @@ object AppModule {
     fun provideRepository(
         shoppingListDatabase: ShoppingListDatabaseDao,
         ioDispatcher: CoroutineDispatcher
-    ): ShoppingListRepositoryInt {
-        return ShoppingListRepository(shoppingListDatabase, ioDispatcher)
+    ): ShoppingListRepository {
+        return ShoppingListRepositoryImpl(shoppingListDatabase, ioDispatcher)
     }
 
     @JvmStatic

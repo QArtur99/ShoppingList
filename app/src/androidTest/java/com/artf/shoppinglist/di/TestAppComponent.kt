@@ -3,7 +3,7 @@ package com.artf.shoppinglist.di
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.artf.shoppinglist.TestApp
-import com.artf.shoppinglist.repository.ShoppingListRepositoryInt
+import com.artf.shoppinglist.data.repository.ShoppingListRepository
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -24,7 +24,7 @@ interface TestAppComponent : AndroidInjector<TestApp> {
         fun create(@BindsInstance applicationContext: Context): TestAppComponent
     }
 
-    val shoppingListRepository: ShoppingListRepositoryInt
+    val shoppingListRepository: ShoppingListRepository
 
     val viewModelFactory: ViewModelProvider.Factory
 }
