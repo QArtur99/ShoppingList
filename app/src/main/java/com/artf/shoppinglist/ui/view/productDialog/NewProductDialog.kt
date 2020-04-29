@@ -54,9 +54,7 @@ class NewProductDialog : DaggerDialogFragment() {
 
             val pqString = binding.quantityEditText.text.toString()
             val productQuantity = if (pqString.isEmpty()) 1L else pqString.toLong()
-            newProductViewModel.createProduct(productName, productQuantity,
-                shoppingListId
-            )
+            newProductViewModel.createProduct(productName, productQuantity, shoppingListId)
             dialog?.dismiss()
         }
     }

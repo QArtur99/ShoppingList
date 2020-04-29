@@ -11,7 +11,6 @@ import com.artf.shoppinglist.ui.data.model.ProductUi
 import com.artf.shoppinglist.ui.view.archivedList.ArchivedListAdapter
 import com.artf.shoppinglist.ui.view.currentList.CurrentListAdapter
 import com.artf.shoppinglist.ui.view.detailList.ProductListAdapter
-import java.util.Date
 
 @BindingAdapter("currentLists")
 fun bindCurrentLists(recyclerView: RecyclerView, data: List<ShoppingList>?) {
@@ -36,7 +35,7 @@ fun bindProductList(recyclerView: RecyclerView, data: List<ProductUi>?) {
 
 @BindingAdapter("shoppingListTimestamp")
 fun bindShoppingListTimestamp(textView: TextView, timestampLong: Long) {
-    val text = getDateFormat().format(Date(timestampLong))
+    val text = timestampLong.getDateFormat()
     textView.text = text
 }
 
