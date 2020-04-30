@@ -18,10 +18,8 @@ class NewListViewModel @Inject constructor(
 
     fun createShoppingList(name: String) {
         _createShoppingListLoading.value = true
-        val shoppingList =
-            ShoppingList(
-                shoppingListName = name
-            )
+        val shoppingList = ShoppingList(shoppingListName = name)
+
         viewModelScope.launch {
             shoppingListRepository.insertShoppingList(shoppingList)
             _createShoppingListLoading.value = false

@@ -29,7 +29,7 @@
             android:paddingBottom="86dp"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:currentLists="@{sharedViewModel.shoppingLists}"
+            app:currentLists="@{sharedViewModel.shoppingListsUi}"
 
             tools:listitem="@layout/item_current_shopping_list" />
 

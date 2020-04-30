@@ -15,8 +15,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import androidx.test.rule.ActivityTestRule
 import com.artf.shoppinglist.R
-import com.artf.shoppinglist.data.database.model.ShoppingList
 import com.artf.shoppinglist.testing.SingleFragmentActivity
+import com.artf.shoppinglist.ui.data.model.ShoppingListUi
 import com.artf.shoppinglist.ui.view.SharedViewModel
 import com.artf.shoppinglist.ui.view.currentList.CurrentListFragment
 import com.artf.shoppinglist.util.LiveDataTestUtil.getValueUI
@@ -54,22 +54,23 @@ class CurrentListFragmentTest {
     val activityRule = ActivityTestRule(SingleFragmentActivity::class.java, true, true)
 
     private val sharedViewModel: SharedViewModel = Mockito.mock(
-        SharedViewModel::class.java)
+        SharedViewModel::class.java
+    )
     private val currentListFragment = TestCurrentListFragment(sharedViewModel)
 
-    private val shoppingLists = MutableLiveData<List<ShoppingList>>()
+    private val shoppingLists = MutableLiveData<List<ShoppingListUi>>()
     private val createItem = MutableLiveData<Boolean>()
     private val shoppingListType = MutableLiveData<ShoppingListType>()
 
-    private val shoppingListsList = mutableListOf<ShoppingList>().apply {
-        add(ShoppingList(0L, "0"))
-        add(ShoppingList(1L, "1"))
-        add(ShoppingList(2L, "2"))
+    private val shoppingListsList = mutableListOf<ShoppingListUi>().apply {
+        add(ShoppingListUi(0L, "0", 0L, false))
+        add(ShoppingListUi(1L, "1", 0L, false))
+        add(ShoppingListUi(2L, "2", 0L, false))
     }
 
     @Before
     fun init() {
-        `when`(sharedViewModel.shoppingLists).thenReturn(shoppingLists)
+        `when`(sharedViewModel.shoppingListsUi).thenReturn(shoppingLists)
         `when`(sharedViewModel.createItem).thenReturn(createItem)
         `when`(sharedViewModel.shoppingListType).thenReturn(shoppingListType)
         doAnswer { createItem.postValue(null) }.`when`(sharedViewModel).onFabClicked(null)

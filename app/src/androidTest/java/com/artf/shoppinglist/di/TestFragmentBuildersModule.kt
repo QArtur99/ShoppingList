@@ -8,6 +8,7 @@ import com.artf.shoppinglist.ui.view.productDialog.NewProductDialog
 import com.artf.shoppinglist.ui.view.shoppingListDialog.NewListDialog
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Suppress("unused")
 @Module
@@ -28,6 +29,7 @@ abstract class TestFragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeCurrentListFragment(): CurrentListFragment
 
+    @ExperimentalCoroutinesApi
     @ContributesAndroidInjector
     abstract fun contributeCurrentListFragmentTest(): CurrentListFragmentTest.TestCurrentListFragment
 }

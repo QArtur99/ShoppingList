@@ -1,4 +1,4 @@
-package com.artf.shoppinglist.ui.data
+package com.artf.shoppinglist.ui.data.mapper
 
 import com.artf.shoppinglist.data.database.model.Product
 import com.artf.shoppinglist.ui.data.model.ProductUi

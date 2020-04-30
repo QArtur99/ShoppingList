@@ -27,7 +27,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:paddingBottom="86dp"
-            app:archivedLists="@{sharedViewModel.shoppingLists}"
+            app:archivedLists="@{sharedViewModel.shoppingListsUi}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_current_shopping_list" />
 

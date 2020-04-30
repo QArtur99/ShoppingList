@@ -85,6 +85,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutine"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutine"
     testImplementation "org.mockito:mockito-core:$versions.mockito"
+    testImplementation "org.mockito:mockito-inline:$versions.mockito"
     testImplementation "junit:junit:$versions.junit"
 
     //Android Test
@@ -101,6 +102,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$versions.espresso"
     androidTestImplementation "androidx.test:core:$versions.atsl_core"
     androidTestImplementation "androidx.test.ext:junit:$versions.atsl_junit"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$versions.atsl_junit"
     androidTestImplementation "androidx.test:monitor:$versions.atsl_monitor"
     androidTestImplementation "androidx.test:rules:$versions.atsl_rules"
     androidTestImplementation "androidx.test:runner:$versions.atsl_runner"

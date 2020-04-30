@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.artf.shoppinglist.R
-import com.artf.shoppinglist.data.database.model.ShoppingList
 import com.artf.shoppinglist.databinding.FragmentCurrentListBinding
+import com.artf.shoppinglist.ui.data.model.ShoppingListUi
 import com.artf.shoppinglist.ui.view.SharedViewModel
 import com.artf.shoppinglist.ui.view.shoppingListDialog.NewListDialog
 import com.artf.shoppinglist.util.ShoppingListType
@@ -62,13 +62,12 @@ open class CurrentListFragment : DaggerFragment() {
     }
 
     private fun getListItemListener(): CurrentListAdapter.ClickListener {
-        return object :
-            CurrentListAdapter.ClickListener {
-            override fun onClickListenerButton(shoppingList: ShoppingList) {
+        return object : CurrentListAdapter.ClickListener {
+            override fun onClickListenerButton(shoppingList: ShoppingListUi) {
                 sharedViewModel.updateShoppingList(shoppingList, true)
             }
 
-            override fun onClickListenerRow(shoppingList: ShoppingList) {
+            override fun onClickListenerRow(shoppingList: ShoppingListUi) {
                 sharedViewModel.onShoppingListClick(shoppingList)
                 if (isThisDestination().not()) return
                 navController().navigate(R.id.action_current_list_to_product_list)

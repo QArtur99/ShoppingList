@@ -6,21 +6,21 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.artf.shoppinglist.R
-import com.artf.shoppinglist.data.database.model.ShoppingList
 import com.artf.shoppinglist.ui.data.model.ProductUi
+import com.artf.shoppinglist.ui.data.model.ShoppingListUi
 import com.artf.shoppinglist.ui.view.archivedList.ArchivedListAdapter
 import com.artf.shoppinglist.ui.view.currentList.CurrentListAdapter
 import com.artf.shoppinglist.ui.view.detailList.ProductListAdapter
 
 @BindingAdapter("currentLists")
-fun bindCurrentLists(recyclerView: RecyclerView, data: List<ShoppingList>?) {
+fun bindCurrentLists(recyclerView: RecyclerView, data: List<ShoppingListUi>?) {
     val adapter = recyclerView.adapter as CurrentListAdapter
     adapter.submitList(data)
     adapter.notifyDataSetChanged()
 }
 
 @BindingAdapter("archivedLists")
-fun bindArchivedList(recyclerView: RecyclerView, data: List<ShoppingList>?) {
+fun bindArchivedList(recyclerView: RecyclerView, data: List<ShoppingListUi>?) {
     val adapter = recyclerView.adapter as ArchivedListAdapter
     adapter.submitList(data)
     adapter.notifyDataSetChanged()

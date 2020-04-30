@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.artf.shoppinglist.R
-import com.artf.shoppinglist.data.database.model.ShoppingList
 import com.artf.shoppinglist.databinding.FragmentArchivedListBinding
+import com.artf.shoppinglist.ui.data.model.ShoppingListUi
 import com.artf.shoppinglist.ui.view.MainActivity
 import com.artf.shoppinglist.ui.view.SharedViewModel
 import com.artf.shoppinglist.util.ShoppingListType
@@ -52,11 +52,11 @@ class ArchivedListFragment : DaggerFragment() {
     private fun getListItemListener(): ArchivedListAdapter.ClickListener {
         return object :
             ArchivedListAdapter.ClickListener {
-            override fun onClickListenerButton(shoppingList: ShoppingList) {
+            override fun onClickListenerButton(shoppingList: ShoppingListUi) {
                 sharedViewModel.updateShoppingList(shoppingList, false)
             }
 
-            override fun onClickListenerRow(shoppingList: ShoppingList) {
+            override fun onClickListenerRow(shoppingList: ShoppingListUi) {
                 sharedViewModel.onShoppingListClick(shoppingList)
                 if (isThisDestination().not()) return
                 findNavController().navigate(R.id.action_archived_list_to_product_list)
