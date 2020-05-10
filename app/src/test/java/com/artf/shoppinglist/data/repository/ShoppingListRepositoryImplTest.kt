@@ -32,8 +32,7 @@ class ShoppingListRepositoryImplTest {
 
     @Test
     fun updateShoppingList() = runBlockingTest {
-        val shoppingList =
-            ShoppingList()
+        val shoppingList = ShoppingList()
         repo.updateShoppingList(shoppingList)
         Mockito.verify(shoppingListDao).updateShoppingList(shoppingList)
     }
@@ -47,8 +46,7 @@ class ShoppingListRepositoryImplTest {
 
     @Test
     fun insertShoppingList() = runBlockingTest {
-        val shoppingList =
-            ShoppingList()
+        val shoppingList = ShoppingList()
         repo.insertShoppingList(shoppingList)
         Mockito.verify(shoppingListDao).insertShoppingList(shoppingList)
     }
